@@ -1,0 +1,58 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "jest": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "react-app",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/strict",
+        "plugin:prettier/recommended",
+        "prettier/react",
+        "prettier/@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "import",
+        "jsx-a11y", 
+        "prettier",
+        "react", 
+        "react-hooks",
+        "simple-import-sort"
+    ],
+    "rules": {
+        "@typescript-eslint/prefer-regexp-exec": "off",
+        "@typescript-eslint/prefer-includes": "off",
+        "no-console": "off",
+        "import/no-default-export": 2,
+        "prettier/prettier": ["error"],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [".ts", ".tsx"]
+            }
+        ],
+        "react/prop-types": 0,
+        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/rules-of-hooks": "error",
+        "simple-import-sort/sort": "error"
+    },
+    "globals": {
+        "window": true,
+        "document": true,
+        "localStorage": true,
+        "FormData": true,
+        "FileReader": true,
+        "Blob": true,
+        "navigator": true
+    }
+}
