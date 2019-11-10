@@ -34,6 +34,7 @@
         "@typescript-eslint/prefer-includes": "off",
         "no-console": "off",
         "import/no-default-export": 2,
+        "prefer-spread": "warn",
         "prettier/prettier": ["error"],
         "react/jsx-filename-extension": [
             1,
