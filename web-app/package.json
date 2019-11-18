@@ -11,12 +11,20 @@
         "lint:fix": "eslint --fix --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx"
     },
     "dependencies": {
+        "@material-ui/core": "^4.6.1",
+        "@material-ui/icons": "^4.5.1",
         "@types/jest": "24.0.22",
         "@types/node": "12.12.7",
         "@types/react": "16.9.11",
+        "@types/react-beautiful-dnd": "^11.0.3",
         "@types/react-dom": "16.9.4",
+        "@types/react-router-dom": "^5.1.2",
+        "bootstrap": "^4.3.1",
         "react": "^16.11.0",
+        "react-beautiful-dnd": "^12.1.1",
         "react-dom": "^16.11.0",
+        "react-icons": "^3.8.0",
+        "react-router-dom": "^5.1.2",
         "react-scripts": "3.2.0",
         "typescript": "3.7.2"
     },
