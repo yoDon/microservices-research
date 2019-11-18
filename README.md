@@ -1,5 +1,5 @@
 ## TODO 
-- [ ] Add basic Material-UI support incl. React-Beautiful-DnD and React-Router
+- [X] Add basic Material-UI support incl. React-Beautiful-DnD and React-Router
 - [ ] Add basic NestJS backend
     - [ ] Add sign-in page
 - [ ] Add Electron hosting of NestJS
