@@ -1,4 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
+import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 import { AppService } from "./app.service"; // eslint-disable-line no-unused-vars
 
@@ -6,6 +7,8 @@ import { AppService } from "./app.service"; // eslint-disable-line no-unused-var
 export class AppController {
     constructor(private readonly appService: AppService) {} // eslint-disable-line no-unused-vars
 
+    @ApiOperation({ title: "Confirm API is awake" })
+    @ApiResponse({ status: 200, description: "Return Hello World respondse" })
     @Get()
     getHello(): string {
         return this.appService.getHello();
