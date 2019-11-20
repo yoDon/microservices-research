@@ -8,9 +8,9 @@ export class AppController {
     constructor(private readonly appService: AppService) {} // eslint-disable-line no-unused-vars
 
     @ApiOperation({ title: "Confirm API is awake" })
-    @ApiResponse({ status: 200, description: "Return Hello World respondse" })
+    @ApiResponse({ status: 200, description: "Return Hello World response" })
     @Get()
-    getHello(): string {
+    getHello() {
         return this.appService.getHello();
     }
 }

@@ -2,9 +2,10 @@
 - [X] Add basic Material-UI support incl. React-Beautiful-DnD and React-Router
 - [ ] Add basic NestJS backend
     - [X] Add Swagger API docs
-    - [ ] Add authhorizable service wth DTO data validation
+    - [X] Add service wth DTO data validation
+    - [ ] Turn on async controllers
     - [ ] Add Auth0.com API authorization
-    - [ ] Add sign-in page
+    - [ ] Add sign-in page to frontend
 - [ ] Add Electron hosting of NestJS
     - [ ] Freshen Electron-GraphQL
     - [ ] Q: Use my approach or mimic angular-console's old hosting of NestJS in electron
