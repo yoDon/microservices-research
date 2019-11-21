@@ -23,7 +23,7 @@ export class DemoController {
     @ApiResponse({ status: 200, description: "Demo DTO validation" })
     @Post()
     @UsePipes(new ValidationPipe())
-    createDemo(@Body() createDemoDto: CreateDemoDto) {
+    async createDemo(@Body() createDemoDto: CreateDemoDto) {
         return this.demoService.createDemo(createDemoDto);
     }
 }

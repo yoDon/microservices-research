@@ -4,11 +4,14 @@ import { ICreateDemoDto } from "./dto/create-demo.dto"; // eslint-disable-line n
 
 @Injectable()
 export class DemoService {
-    getDemo(): string {
+    getDemo() {
         return "Hello World!";
     }
 
-    createDemo(arg: ICreateDemoDto): string {
-        return "Hello World! one:" + arg.one + " two:" + arg.two;
+    async createDemo(arg: ICreateDemoDto) {
+        // for demo example purposes, return a promise
+        return new Promise((resolve) =>
+            resolve("Hello World! one:" + arg.one + " two:" + arg.two),
+        );
     }
 }

@@ -3,7 +3,7 @@
 - [ ] Add basic NestJS backend
     - [X] Add Swagger API docs
     - [X] Add service wth DTO data validation
-    - [ ] Turn on async controllers
+    - [X] Turn on async controllers
     - [ ] Add Auth0.com API authorization
     - [ ] Add sign-in page to frontend
 - [ ] Add Electron hosting of NestJS
