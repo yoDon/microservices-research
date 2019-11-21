@@ -7,13 +7,7 @@ import { DemoService } from "./demo/demo.service";
 
 @Module({
     imports: [],
-    controllers: [
-        AppController,
-        DemoController,
-    ],
-    providers: [
-        AppService,
-        DemoService,
-    ],
+    controllers: [AppController, DemoController],
+    providers: [AppService, DemoService],
 })
 export class AppModule {}
