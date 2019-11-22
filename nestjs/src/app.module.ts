@@ -1,13 +1,21 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common"; // eslint-disable-line no-unused-vars
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { DemoController } from "./demo/demo.controller";
-import { DemoService } from "./demo/demo.service";
+import { AuthenticationMiddleware } from "./common/authentication..middleware";
+import { DemoModule } from "./demo/demo.module";
 
 @Module({
-    imports: [],
-    controllers: [AppController, DemoController],
-    providers: [AppService, DemoService],
+    imports: [DemoModule],
+    controllers: [AppController],
+    providers: [AppService],
 })
-export class AppModule {}
+class AppModule {
+    public configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(AuthenticationMiddleware)
+            .forRoutes({ path: "/demo", method: RequestMethod.POST });
+    }
+}
+
+export { AppModule };
