@@ -6,7 +6,7 @@ import { DemoService } from "./demo.service"; // eslint-disable-line no-unused-v
 import { CreateDemoDto } from "./dto/create-demo.dto"; // eslint-disable-line no-unused-vars
 
 @Controller("demo")
-export class DemoController {
+class DemoController {
     constructor(private readonly demoService: DemoService) {} // eslint-disable-line no-unused-vars
 
     @ApiUseTags("demo")
@@ -27,3 +27,5 @@ export class DemoController {
         return this.demoService.createDemo(createDemoDto);
     }
 }
+
+export { DemoController };

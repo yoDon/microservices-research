@@ -4,7 +4,7 @@ import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { AppService } from "./app.service"; // eslint-disable-line no-unused-vars
 
 @Controller()
-export class AppController {
+class AppController {
     constructor(private readonly appService: AppService) {} // eslint-disable-line no-unused-vars
 
     @ApiOperation({ title: "Confirm API is awake" })
@@ -14,3 +14,5 @@ export class AppController {
         return this.appService.getHello();
     }
 }
+
+export { AppController };

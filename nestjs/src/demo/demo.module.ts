@@ -8,4 +8,6 @@ import { DemoService } from "./demo.service";
     controllers: [DemoController],
     providers: [DemoService],
 })
-export class DemoModule {}
+class DemoModule {}
+
+export { DemoModule };

@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { ICreateDemoDto } from "./dto/create-demo.dto"; // eslint-disable-line no-unused-vars
 
 @Injectable()
-export class DemoService {
+class DemoService {
     getDemo() {
         return "Hello World!";
     }
@@ -15,3 +15,5 @@ export class DemoService {
         );
     }
 }
+
+export { DemoService };
