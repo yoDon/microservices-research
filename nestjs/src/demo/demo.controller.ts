@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, UsePipes } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiOperation, ApiResponse, ApiUseTags } from "@nestjs/swagger";
 
-import { ValidationPipe } from "../common/ValidationPipe";
 import { DemoService } from "./demo.service"; // eslint-disable-line no-unused-vars
 import { CreateDemoDto } from "./dto/create-demo.dto"; // eslint-disable-line no-unused-vars
 
@@ -22,7 +22,7 @@ class DemoController {
     @ApiOperation({ title: "Demo endpoint" })
     @ApiResponse({ status: 200, description: "Demo DTO validation" })
     @Post()
-    @UsePipes(new ValidationPipe())
+    @UseGuards(AuthGuard("jwt"))
     async createDemo(@Body() createDemoDto: CreateDemoDto) {
         return this.demoService.createDemo(createDemoDto);
     }
