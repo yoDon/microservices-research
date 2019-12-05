@@ -1,6 +1,7 @@
 ## Notes
 
 - NestJS authorization example at https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authentication/
+- Create-react-app with Auth0 signin at https://medium.com/@saurssaurav33/start-react-with-auth0-107525cb969
 
 ## Todo
 - [X] Add basic Material-UI support incl. React-Beautiful-DnD and React-Router
@@ -11,7 +12,33 @@
 - [ ] Add Auth0.com API authorization
     - [X] Sign up for Auth0
     - [X] use NestJS guards for authorization
-    - [ ] Add sign-in page to web-app frontend  
+    - [ ] Authenticate with Auth0 JWT then with Nest Session cookie
+        - [ ] NestJS should use session cookie to authenticate users after initial signin
+            - [ ] https://auth0.com/docs/login/spa/authenticate-with-cookies
+            - [ ] https://github.com/nestjs/docs.nestjs.com/issues/237
+            - [ ] https://developer.okta.com/blog/2019/09/19/nodejs-typescript
+            - [ ] modify or replace my old auth0client.ts file
+        - [ ] NestJS needs way to invalidate user's session
+        - [ ] NestJS should use Auth0 jwt to authenticate users on initial signin
+            - [ ] NestJS should serve site as static content so API and frontend can be on same domain for cookie handling
+                - [ ] https://docs.nestjs.com/recipes/serve-static
+            - [ ] Auth0 login page should post to server AND server should send cookie to front-end
+                - [ ] auth0 login page tells browser to redirect to server URL
+                - [ ] implement server postLogin get controller returning an http redirect 
+                    - [ ] server receives token in hash and state somewhere
+                    - [ ] server controller requires passport authorization which uses auth0 api to validate token
+                    - [ ] server crypto hashes auth0 to form secret client JS doesnt know
+                    - [ ] server places userId in js-visible cookie
+                    - [ ] server generates session key and places session key in httpOnly cookie
+                    - [ ] server tells browser to redirect back to SPA (at address in state) with cookies
+                        https://github.com/nestjs/nest/issues/793 
+                    - [ ] future requests from browser are authenticated with session cookie
+            - [ ] implement server authenticated get user info controller
+                - [ ] client can make request of server using cookie to learn about its user
+    - [ ] Add sign-in controls to web-app frontend
+        - [ ] use context provider to hold user login info after login (and clear in postlogout)
+        - [ ] add signup button (different from login? maybe just diferent redirect_url?)
+        - [ ] add Auth widget that shows or hides login/logout/signup buttons (and User identity button?)
     - [ ] Setup and use app_metadata (eg. for simulated account billing status)
 - [ ] Make Nest-based storage service with node-cache (npm module) based versioning file system service
     - [ ] Cache need to deal with marking objects as dirty - writing app responsible for maintaining singgle source of truth
