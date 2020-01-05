@@ -1,8 +1,8 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 
-const LoginButton: React.FC = () => {
-    const doLogin = () => {
+const RegisterButton: React.FC = () => {
+    const doRegister = () => {
         // NOTE: use window.location not history.push
         //       because the browser needs to go outside
         //       the router's set of routes
@@ -10,10 +10,10 @@ const LoginButton: React.FC = () => {
     };
 
     return (
-        <Button color="inherit" onClick={doLogin}>
-            Login
+        <Button color="inherit" onClick={doRegister}>
+            Register
         </Button>
     );
 };
 
-export { LoginButton };
+export { RegisterButton };

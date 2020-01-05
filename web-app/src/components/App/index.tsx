@@ -1,26 +1,26 @@
 import "./style.css";
 
 import React from "react";
+import { CookiesProvider } from "react-cookie";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { PostLogin } from "../auth/PostLogin";
 import { Dashboard } from "../Dashboard";
 import { DndExample } from "../DndExample";
 
 const App: React.FC = () => {
     return (
-        <Router>
-            <Route exact={true} path="/">
-                <Dashboard />
-            </Route>
-            <Route path="/Other">
-                <DndExample />
-            </Route>
-            <Route
-                path="/PostLogin"
-                render={(props) => <PostLogin {...props} />}
-            />
-        </Router>
+        <CookiesProvider>
+            <Router>
+                <Route
+                    exact={true}
+                    path="/"
+                    render={(props) => <Dashboard {...props} />}
+                />
+                <Route path="/Other">
+                    <DndExample />
+                </Route>
+            </Router>
+        </CookiesProvider>
     );
 };
 
