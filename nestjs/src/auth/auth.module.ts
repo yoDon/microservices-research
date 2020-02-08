@@ -4,11 +4,10 @@ import { PassportModule } from "@nestjs/passport";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { CookieSerializer } from "./cookie.serializer";
-import { JwtStrategy } from "./jwt.strategy";
 
 @Module({
     imports: [PassportModule.register({ session: true })],
-    providers: [AuthService, CookieSerializer, JwtStrategy],
+    providers: [AuthService, CookieSerializer],
     controllers: [AuthController],
     exports: [PassportModule],
 })

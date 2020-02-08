@@ -1,6 +1,5 @@
 import { Logger } from "@nestjs/common";
 import { Injectable } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
 import * as cryptoRandomString from "crypto-random-string";
 import * as fetch from "isomorphic-fetch";
 

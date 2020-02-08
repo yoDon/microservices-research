@@ -34,6 +34,7 @@
             - [X] Logout button should redirect to /api/auth/prelogout
             - [X] Signup button should redirect to ??? (same as login?)
 - [ ] Add Auth0.com API authorization
+    - [X] Remove unused JWT strategy packages
     - [ ] Implement example session-authenticated controller that respects bannedUsers list
         - [ ] future requests from browser are authenticated with session cookie
         - [ ] check if user is in bannedUsers list and if so log and ban
@@ -42,7 +43,6 @@
         - [ ] session authenticated get user info controller that respects bannedUsers list
         - [ ] admin controller to show list of created sessions/users
         - [ ] admin controller to ban a user and their session
-    - [ ] Remove unused JWT strategy packages
     - [ ] web-app get user info from /api/auth/userinfo using cookie
         - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
 - [ ] Update NestJS to Swagger 4
