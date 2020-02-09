@@ -14,8 +14,9 @@ import { IUserApp, IUserVisible } from "."; // eslint-disable-line no-unused-var
 
 const logger = new Logger("auth.service.ts");
 
-// TODO global state should be cluster-safe cache with automatic time-based expiration
-const bannedUsers = {} as { [userId: string]: true };
+// TODO persist the list of banned users
+const bannedUsers = {} as { [email: string]: true };
+const activeUsers = {} as { [email: string]: number };
 
 const noUser = () => {
     return {
@@ -189,6 +190,18 @@ const constructAppUrl = (state: string) => {
 @Injectable()
 class AuthService {
     public getVisibleUserInfo() {}
+
+    public isBannedUser(email: string) {
+        if (bannedUsers[email])
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public sawUser(email: string) {
+        activeUsers[email] = Date.now;
+    }
 
     public prelogin(): string {
         const targetRoute = "/";

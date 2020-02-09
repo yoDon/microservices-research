@@ -5,14 +5,21 @@ import {
     ExecutionContext, // eslint-disable-line no-unused-vars
     UnauthorizedException,
 } from "@nestjs/common";
+import { AuthService } from "./auth.service";
 
 class SessionGuard implements CanActivate {
+    constructor(private readonly authService: AuthService) {}
+
     canActivate(context: ExecutionContext): boolean | Promise<boolean> {
         const httpContext = context.switchToHttp();
         const request = httpContext.getRequest();
         try {
-            if (request.session.passport.user) {
-                return true;
+            if (request.session.user && request.session.user.email) {
+                if (this.authService.isBannedUser(request.session.user.email) === false) {
+                    this.authService.sawUser(request.session.user.email);
+                    return true;
+                }
+                return false;
             }
         } catch (e) {
             throw new UnauthorizedException();

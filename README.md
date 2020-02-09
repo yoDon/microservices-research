@@ -36,15 +36,22 @@
 - [ ] Add Auth0.com API authorization
     - [X] Remove unused JWT strategy packages
     - [ ] Implement example session-authenticated controller that respects bannedUsers list
-        - [ ] future requests from browser are authenticated with session cookie
-        - [ ] check if user is in bannedUsers list and if so log and ban
-        - [ ] build list of who NestJS has created sessions for
-        - [ ] Setup and use app_metadata (eg. for simulated account billing status)
-        - [ ] session authenticated get user info controller that respects bannedUsers list
-        - [ ] admin controller to show list of created sessions/users
-        - [ ] admin controller to ban a user and their session
-    - [ ] web-app get user info from /api/auth/userinfo using cookie
-        - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
+        - [X] future requests from browser are authenticated with session cookie via SessionGuard
+        - [X] session authenticated get user info controller that respects bannedUsers list
+        - [X] check if user is in bannedUsers list and if so log and ban
+        - [X] build list of who NestJS has created sessions for
+        - [ ] web-app get user info from /api/auth/userinfo using cookie
+            - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
+        - [ ] Setup and use app_metadata
+            - [ ] BillingGuard for simulated account billing status
+            - [ ] AdminGuard for admin status
+            - [ ] admin controller to show list of AuthService.activeUsers
+            - [ ] web-app UI to show active users
+        - [ ] persist list of bannedUsers somewhere
+            - [ ] need endpoint that can add someone to list
+            - [ ] need S3 bucket to hold list
+            - [ ] need way to tell api the list needs to be refreshed from S3
+            - [ ] admin controller to ban a user and their session
 - [ ] Update NestJS to Swagger 4
     - https://trilon.io/blog/nestjs-swagger-4-whats-new
     - [ ] do whatever is needed regarding dto's (see demo controller for example)

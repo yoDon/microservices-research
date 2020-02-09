@@ -22,14 +22,9 @@ class AuthController {
     constructor(private readonly authService: AuthService) {} // eslint-disable-line no-unused-vars
 
     @Get("userinfo")
-    // @UseGuards(SessionGuard)
-    // TODO should add custom @SessionUser decorator that extends session and return the user
-    userinfo(@Session() session: { user?: string }) {
-        if (session) {
-            return session.user;
-        } else {
-            return;
-        }
+    @UseGuards(SessionGuard)
+    userinfo(@Session() session: { user:{ email:string }}) {
+        return session.user;
     }
 
     @Get("prelogin")
