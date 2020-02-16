@@ -7,6 +7,9 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 
+//
+// Require caller to be signed in with a non-banned user account
+//
 class SessionGuard implements CanActivate {
     constructor(private readonly authService: AuthService) {}
 
@@ -24,6 +27,7 @@ class SessionGuard implements CanActivate {
         } catch (e) {
             throw new UnauthorizedException();
         }
+        return false;
     }
 }
 

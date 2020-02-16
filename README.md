@@ -40,16 +40,16 @@
         - [X] session authenticated get user info controller that respects bannedUsers list
         - [X] check if user is in bannedUsers list and if so log and ban
         - [X] build list of who NestJS has created sessions for
+        - [ ] auth.service.ts: refactor static variables into member variables
         - [ ] Setup and use app_metadata
-            - [ ] BillingGuard for simulated account billing status
+            - [X] Understand how to use and receive app_metadata
+            - [ ] UserGuard for signed-in required
             - [ ] AdminGuard for admin status
+        - [ ] Add admin method for banning users
+        - [ ] Log recent users
             - [ ] admin controller to show list of AuthService.activeUsers
             - [ ] web-app UI to show active users
-        - [ ] persist list of bannedUsers somewhere
-            - [ ] Decide do we need? Every api call pings auth0 to validate user
-            - [ ] need S3 file to hold list
-            - [ ] need way for app to pull down S3 file (without having write perms to it)
-            - [ ] need api endpoint to infor api list needs to be refreshed from S3 file
+- [ ] Extract all auth0-handling into provider moddule
 - [ ] web-app get user info from /api/auth/userinfo using cookie
     - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
 - [ ] Update NestJS to Swagger 4

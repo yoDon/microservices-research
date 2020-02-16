@@ -1,0 +1,25 @@
+-----
+Start
+-----
+Use the Auth0 dashboard to create a Single Page Application
+
+------------
+Settings tab
+------------
+Copy the relevant Settings of the Single Page Application to nestjs/constants.ts
+
+Set Allowed Callback URLs:
+http://localhost:3001/api/auth/postlogin, http://localhost:3001/
+
+Set Allowed Web Origins:
+http://localhost:3001, https://dev-h-vc-i52.auth0.com
+
+Set Allowed Logout URLs:
+http://localhost:3001/api/auth/postlogout
+
+---------------
+Connections tab
+---------------
+Username-Password-Authentication - Database - yes
+
+google-oauth2 - Google/Gmail - yes

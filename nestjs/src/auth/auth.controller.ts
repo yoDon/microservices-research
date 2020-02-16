@@ -62,6 +62,12 @@ class AuthController {
                 userVisible,
                 redirect,
             } = await this.authService.postlogin(code, state);
+            //
+            // place the app-visible data into a session cookie sent
+            // to the client encrypted and which is only readable
+            // server-side, and place the user-visible data into a
+            // separate user cookie that can be read client-side
+            //
             session.user = userApp; // eslint-disable-line require-atomic-updates
             res.cookie("user", JSON.stringify(userVisible));
             res.redirect(redirect);

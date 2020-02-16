@@ -18,6 +18,15 @@ const logger = new Logger("auth.service.ts");
 const bannedUsers = {} as { [email: string]: true };
 const activeUsers = {} as { [email: string]: number };
 
+
+const isBannedUser = (email: string) => {
+    if (bannedUsers[email])
+    {
+        return true;
+    }
+    return false;
+}
+
 const noUser = () => {
     return {
         userApp: null as IUserApp,
@@ -118,13 +127,13 @@ const fetchUserInfoUsingTokens = async (tokens: {
             updated_at: string;
             email: string;
             email_verified: boolean;
-        } = await res.json();
-        // TODO pull extra user metadata info
-        // checkIfUserIsInBannedUsersAndIfSoLogAndBan(user);
-        // if (userHasAnyAccess(user)) {
-        //     // TODO next line session.user or session.passport.user?
-        //     session.user = userFromIdToken(idToken);
-        // }
+        } | { [key:string]:any } = await res.json();
+
+        if (isBannedUser(auth0user.email))
+        {
+            logger.warn("bannedUser: " + auth0user.email, "AuthService-fuiut-02");
+            return noUser();   
+        }
         return {
             userApp: {
                 accessToken: tokens.access_token,
@@ -136,6 +145,7 @@ const fetchUserInfoUsingTokens = async (tokens: {
                 updatedAt: auth0user.updated_at,
                 email: auth0user.email,
                 emailVerified: auth0user.email_verified,
+                roles: JSON.parse(auth0user["https://example.com/roles"]),
             } as IUserApp,
             userVisible: {
                 loggedIn: true,
@@ -200,7 +210,7 @@ class AuthService {
     }
 
     public sawUser(email: string) {
-        activeUsers[email] = Date.now;
+        activeUsers[email] = Date.now();
     }
 
     public prelogin(): string {
