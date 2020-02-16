@@ -31,7 +31,7 @@ class AuthController {
     @ApiOperation({ title: "Initiate login sequence" })
     @ApiResponse({
         status: 304,
-        description: "Redirects to Auth0 login page with unique nonce",
+        description: "Redirects to external login page with unique nonce",
     })
     prelogin(@Session() session: { user?: any }, @Res() res: Response) {
         try {
@@ -81,7 +81,7 @@ class AuthController {
     @ApiOperation({ title: "Initiate logout sequence" })
     @ApiResponse({
         status: 304,
-        description: "Redirects to Auth0 logout page",
+        description: "Redirects to external logout page",
     })
     prelogout(@Session() session: { user?: any }, @Res() res: Response) {
         try {

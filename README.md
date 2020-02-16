@@ -40,16 +40,16 @@
         - [X] session authenticated get user info controller that respects bannedUsers list
         - [X] check if user is in bannedUsers list and if so log and ban
         - [X] build list of who NestJS has created sessions for
-        - [ ] auth.service.ts: refactor static variables into member variables
-        - [ ] Setup and use app_metadata
+        - [X] auth.service.ts: refactor static variables into member variables
+        - [X] Setup and use app_metadata
             - [X] Understand how to use and receive app_metadata
             - [X] UserGuard for signed-in required
             - [X] AdminGuard for admin status
-        - [ ] Log recent users
-            - [ ] admin controller to show list of AuthService.activeUsers
-            - [ ] web-app UI to show active users
-            - [ ] admin method for banning users
 - [ ] Extract all auth0-handling into provider moddule
+    - [ ] Log recent users
+        - [ ] admin controller to show list of AuthService.activeUsers
+        - [ ] web-app UI to show active users
+        - [ ] admin method for banning users
 - [ ] web-app get user info from /api/auth/userinfo using cookie
     - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
 - [ ] Update NestJS to Swagger 4
