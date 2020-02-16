@@ -10,7 +10,7 @@ import { AuthService } from "./auth.service";
 //
 // Require caller to be signed in with a non-banned user account
 //
-class SessionGuard implements CanActivate {
+class UserGuard implements CanActivate {
     constructor(private readonly authService: AuthService) {}
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> {
@@ -31,4 +31,4 @@ class SessionGuard implements CanActivate {
     }
 }
 
-export { SessionGuard };
+export { UserGuard };

@@ -43,12 +43,12 @@
         - [ ] auth.service.ts: refactor static variables into member variables
         - [ ] Setup and use app_metadata
             - [X] Understand how to use and receive app_metadata
-            - [ ] UserGuard for signed-in required
+            - [X] UserGuard for signed-in required
             - [ ] AdminGuard for admin status
-        - [ ] Add admin method for banning users
         - [ ] Log recent users
             - [ ] admin controller to show list of AuthService.activeUsers
             - [ ] web-app UI to show active users
+            - [ ] admin method for banning users
 - [ ] Extract all auth0-handling into provider moddule
 - [ ] web-app get user info from /api/auth/userinfo using cookie
     - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)

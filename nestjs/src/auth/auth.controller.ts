@@ -13,7 +13,7 @@ import { Request, Response } from "express"; // eslint-disable-line no-unused-va
 
 import { authErrorUrl } from "../../constants";
 import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars
-import { SessionGuard } from "./session.guard";
+import { UserGuard } from "./user.guard";
 
 const logger = new Logger("auth.controller.ts");
 
@@ -22,7 +22,7 @@ class AuthController {
     constructor(private readonly authService: AuthService) {} // eslint-disable-line no-unused-vars
 
     @Get("userinfo")
-    @UseGuards(SessionGuard)
+    @UseGuards(UserGuard)
     userinfo(@Session() session: { user:{ email:string }}) {
         return session.user;
     }
