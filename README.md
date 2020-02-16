@@ -44,7 +44,7 @@
         - [ ] Setup and use app_metadata
             - [X] Understand how to use and receive app_metadata
             - [X] UserGuard for signed-in required
-            - [ ] AdminGuard for admin status
+            - [X] AdminGuard for admin status
         - [ ] Log recent users
             - [ ] admin controller to show list of AuthService.activeUsers
             - [ ] web-app UI to show active users
