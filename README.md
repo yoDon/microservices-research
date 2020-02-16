@@ -1,11 +1,6 @@
 ## Todo
-- [X] Update NestJS to Swagger 4
-    - https://trilon.io/blog/nestjs-swagger-4-whats-new
-    - [X] do whatever is needed regarding dto's (see demo controller for example)
-- [ ] Make Nest-based storage service with node-cache (npm module) based versioning file system service
-    - [ ] Cache need to deal with marking objects as dirty - writing app responsible for maintaining singgle source of truth
-        - [ ] Check if path is in cache, if not load 0 version from file system (in future from S3)
-        - [ ] On save write as 0 version and highest numbered version
+- [ ] Make Nest-based versioning S3 storage service
+    - [ ] Design api and functionality
 - [ ] use S3 for banning users
     - [ ] on startup download bannedUsers list from S3
     - [ ] expose api method to refresh/redownload bannedUsers list from S3

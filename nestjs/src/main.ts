@@ -42,19 +42,6 @@ async function bootstrap() {
 
     app.useStaticAssets(join(__dirname, "../dist_client"));
 
-    /* TODO remove
-    app.use(
-        session({
-            secret: process.env.APP_COOKIESECRET || "TODO CHANGEME",
-            resave: false,
-            saveUninitialized: false,
-            cookie: {
-                secure: process.env.NODE_ENV === "production",
-                httpOnly: true,
-            },
-        }),
-    );
-    */
     app.use(passport.initialize());
     app.use(passport.session());
 
