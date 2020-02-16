@@ -1,60 +1,13 @@
 ## Todo
-- [X] Add basic Material-UI support incl. React-Beautiful-DnD and React-Router
-- [X] Add basic NestJS backend
-    - [X] Add Swagger API docs
-    - [X] Add service wth DTO data validation
-    - [X] Turn on async controllers
-- [X] Add Auth0.com authorization
-    - [X] Sign up for Auth0
-    - [X] use NestJS guards for authorization
-    - [X] NestJS should use Auth0 jwt to authenticate users on initial signin, then session cookies afterwards
-        - [X] NestJS should serve site as static content so API and frontend can be on same domain for cookie handling
-            - https://stackoverflow.com/questions/55325062/how-to-serve-static-html-files-in-nest-js
-            - https://docs.nestjs.com/techniques/mvc
-        - [X] Auth0 login page should post to server AND server should send cookie to front-end
-            - https://github.com/nestjs/docs.nestjs.com/issues/237
-            - https://dev.to/nestjs/authentication-and-sessions-for-mvc-apps-with-nestjs-55a4
-            - https://auth0.com/docs/login/spa/authenticate-with-cookies
-            - https://developer.okta.com/blog/2019/09/19/nodejs-typescript
-            - https://medium.com/@saurssaurav33/start-react-with-auth0-107525cb969
-            - https://auth0.com/blog/developing-a-secure-api-with-nestjs-adding-authentication/
-            - [X] auth0 login page tells browser to redirect to server URL localhost:3001//api/login
-            - [X] implement NestJS localhost:3001/api/prelogin and localhost:3001/api/postlogin 
-                - [X] use nestjs-cookie-session to generate httpOnly session
-                - [X] unpack auth0 userinfo response into session cookie
-                - [X] server tells browser to redirect back to SPA (at address in state) with cookies
-        - [X] Implement logout
-        - [X] Add non-httpOnly cookie that indicates if user is logged in or not
-    - [X] Add sign-in controls to web-app frontend
-        - [X] use NestJS to serve site
-            - [X] NestJS should use cpx --clean source dest to publish
-        - [X] add Auth widget that shows or hides login/logout/signup buttons (and User identity button?)
-            - [X] use non-httpOnly user cookie
-            - [X] Login button should redirect to /api/auth/prelogin
-            - [X] Logout button should redirect to /api/auth/prelogout
-            - [X] Signup button should redirect to ??? (same as login?)
-- [ ] Add Auth0.com API authorization
-    - [X] Remove unused JWT strategy packages
-    - [ ] Implement example session-authenticated controller that respects bannedUsers list
-        - [X] future requests from browser are authenticated with session cookie via SessionGuard
-        - [X] session authenticated get user info controller that respects bannedUsers list
-        - [X] check if user is in bannedUsers list and if so log and ban
-        - [X] build list of who NestJS has created sessions for
-        - [X] auth.service.ts: refactor static variables into member variables
-        - [X] Setup and use app_metadata
-            - [X] Understand how to use and receive app_metadata
-            - [X] UserGuard for signed-in required
-            - [X] AdminGuard for admin status
-- [ ] Extract all auth0-handling into provider moddule
-    - [ ] Log recent users
-        - [ ] admin controller to show list of AuthService.activeUsers
-        - [ ] web-app UI to show active users
-        - [ ] admin method for banning users
-- [ ] web-app get user info from /api/auth/userinfo using cookie
-    - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
+- [ ] Log recent users
+    - [ ] admin controller to show list of AuthService.activeUsers
+    - [ ] web-app UI to show active users
+    - [ ] admin method for banning users
 - [ ] Update NestJS to Swagger 4
     - https://trilon.io/blog/nestjs-swagger-4-whats-new
     - [ ] do whatever is needed regarding dto's (see demo controller for example)
+- [ ] web-app get user info from /api/auth/userinfo using cookie
+    - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
 - [ ] Make Nest-based storage service with node-cache (npm module) based versioning file system service
     - [ ] Cache need to deal with marking objects as dirty - writing app responsible for maintaining singgle source of truth
         - [ ] Check if path is in cache, if not load 0 version from file system (in future from S3)
