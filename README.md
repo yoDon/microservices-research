@@ -1,17 +1,19 @@
 ## Todo
-- [ ] Log recent users
-    - [ ] admin controller to show list of AuthService.activeUsers
-    - [ ] web-app UI to show active users
-    - [ ] admin method for banning users
-- [ ] Update NestJS to Swagger 4
+- [X] Update NestJS to Swagger 4
     - https://trilon.io/blog/nestjs-swagger-4-whats-new
-    - [ ] do whatever is needed regarding dto's (see demo controller for example)
-- [ ] web-app get user info from /api/auth/userinfo using cookie
-    - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
+    - [X] do whatever is needed regarding dto's (see demo controller for example)
 - [ ] Make Nest-based storage service with node-cache (npm module) based versioning file system service
     - [ ] Cache need to deal with marking objects as dirty - writing app responsible for maintaining singgle source of truth
         - [ ] Check if path is in cache, if not load 0 version from file system (in future from S3)
         - [ ] On save write as 0 version and highest numbered version
+- [ ] use S3 for banning users
+    - [ ] on startup download bannedUsers list from S3
+    - [ ] expose api method to refresh/redownload bannedUsers list from S3
+- [ ] Log recent users
+    - [ ] admin controller to show list of AuthService.activeUsers
+    - [ ] web-app UI to show active users
+- [ ] web-app get user info from /api/auth/userinfo using cookie
+    - [ ] Q: use context provider to hold user login info after login (and clear in postlogout)
 - [ ] Add Electron hosting of NestJS
     - [ ] Freshen Electron-GraphQL
     - [ ] Q: Use my approach or mimic angular-console's old hosting of NestJS in electron

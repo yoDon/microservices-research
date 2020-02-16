@@ -7,7 +7,7 @@ import { AppService } from "./app.service"; // eslint-disable-line no-unused-var
 class AppController {
     constructor(private readonly appService: AppService) {} // eslint-disable-line no-unused-vars
 
-    @ApiOperation({ title: "Confirm API is awake" })
+    @ApiOperation({ summary: "Confirm API is awake" })
     @ApiResponse({ status: 200, description: "Return Hello World response" })
     @Get()
     getHello() {

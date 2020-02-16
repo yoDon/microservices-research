@@ -1,4 +1,3 @@
-import { ApiModelProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
 interface ICreateDemoDto {
@@ -7,11 +6,9 @@ interface ICreateDemoDto {
 }
 
 class CreateDemoDto implements ICreateDemoDto {
-    @ApiModelProperty({ type: String })
     @IsString()
     public readonly one: string;
 
-    @ApiModelProperty({ type: String })
     @IsString()
     public readonly two: string;
 }

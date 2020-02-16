@@ -28,7 +28,7 @@ class AuthController {
     }
 
     @Get("prelogin")
-    @ApiOperation({ title: "Initiate login sequence" })
+    @ApiOperation({ summary: "Initiate login sequence" })
     @ApiResponse({
         status: 304,
         description: "Redirects to external login page with unique nonce",
@@ -44,7 +44,7 @@ class AuthController {
     }
 
     @Get("postlogin")
-    @ApiOperation({ title: "Conclude login sequence" })
+    @ApiOperation({ summary: "Conclude login sequence" })
     @ApiResponse({
         status: 304,
         description: "Redirects to SPA path set in state with cookie set",
@@ -78,7 +78,7 @@ class AuthController {
     }
 
     @Get("prelogout")
-    @ApiOperation({ title: "Initiate logout sequence" })
+    @ApiOperation({ summary: "Initiate logout sequence" })
     @ApiResponse({
         status: 304,
         description: "Redirects to external logout page",
@@ -100,7 +100,7 @@ class AuthController {
     }
 
     @Get("postlogout")
-    @ApiOperation({ title: "Conclude logout sequence" })
+    @ApiOperation({ summary: "Conclude logout sequence" })
     @ApiResponse({
         status: 304,
         description: "Redirects to SPA path set in state with cookie cleared",
