@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing"; // eslint-disable-line no-unused-vars
 import * as request from "supertest";
 
-import { AppModule } from "./../src/app.module";
+import { AppModule } from "../src/app/app.module";
 
 describe("AppController (e2e)", () => {
     let app;

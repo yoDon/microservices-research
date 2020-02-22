@@ -1,13 +1,10 @@
 ## Todo
-- [X] Containerize it via https://blog.logrocket.com/containerized-development-nestjs-docker/
-    - [X] Add Dockerfile and docker-compose.yml
-    - [X] Setup VS Code debugger to work with docker-compose
+- [ ] Add user session creator vs session consumer modules
+        see https://stackoverflow.com/a/53650554
+        and https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Design api and functionality
         - [ ] QUESTIONS
-            - [ ] WHAT HANDLES session creation/session reading?
-                see https://stackoverflow.com/a/53650554
-                and https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback
             - [ ] WHAT ABOUT true deletion/overwriting?
             - [X] WHAT ABOUT custom roles?
                 Application programmers handle custom roles by varying file permissions explicitly
