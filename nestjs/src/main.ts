@@ -8,7 +8,6 @@ import {
 } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as dotenv from "dotenv";
-// TODO import * as session from "express-session";
 import * as passport from "passport";
 import { join } from "path";
 
