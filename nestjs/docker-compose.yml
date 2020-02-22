@@ -1,0 +1,34 @@
+#
+# see https://blog.logrocket.com/containerized-development-nestjs-docker/
+#
+# explore running docker filesystem with
+#   docker-compose exec main sh
+#
+version: '3.7'
+
+services:
+  main:
+    container_name: main
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+      - 9229:9229
+    command: npm run start:debug-docker
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - redis
+  redis:
+    container_name: redis
+    image: redis:5
+    networks:
+      - webnet
+networks:
+  webnet:
