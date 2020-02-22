@@ -2,6 +2,7 @@
 - [ ] Add user session creator vs session consumer modules
         see https://stackoverflow.com/a/53650554
         and https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback
+        - [X] get rid of hard-coded constants.ts, convert into env reader class
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Design api and functionality
         - [ ] QUESTIONS
