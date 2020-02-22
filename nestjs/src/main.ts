@@ -1,5 +1,6 @@
 import {
     // Logger,
+    NestApplicationOptions,
     ValidationPipe,
 } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
@@ -11,14 +12,14 @@ import * as dotenv from "dotenv";
 import * as passport from "passport";
 import { join } from "path";
 
-import { AppModule } from "./app.module";
+import { AppModule } from "./app/app.module";
 
 dotenv.config();
 
 // const logger = new Logger("main.ts");
 
 async function bootstrap() {
-    const appOptions = {
+    const appOptions:NestApplicationOptions = {
         cors: true,
         logger: console,
     };
@@ -26,7 +27,11 @@ async function bootstrap() {
         AppModule,
         appOptions,
     );
+
     app.useGlobalPipes(new ValidationPipe());
+    app.useStaticAssets(join(__dirname, "../dist_client"));
+    app.use(passport.initialize());
+    app.use(passport.session());
     app.setGlobalPrefix("api");
 
     const options = new DocumentBuilder()
@@ -37,11 +42,6 @@ async function bootstrap() {
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup("/docs", app, document);
-
-    app.useStaticAssets(join(__dirname, "../dist_client"));
-
-    app.use(passport.initialize());
-    app.use(passport.session());
 
     await app.listen(process.env.PORT);
 }
