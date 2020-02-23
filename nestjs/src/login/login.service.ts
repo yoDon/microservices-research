@@ -1,10 +1,8 @@
-import {
-    Injectable,
-    Logger,
-} from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import * as cryptoRandomString from "crypto-random-string";
 import * as fetch from "isomorphic-fetch";
 
+import { IUserApp, IUserVisible } from "../auth"; // eslint-disable-line no-unused-vars
 import {
     auth0audience,
     auth0client,
@@ -12,13 +10,11 @@ import {
     auth0domain,
     loginErrorUrl,
 } from "../env";
-import { IUserApp, IUserVisible } from "../auth"; // eslint-disable-line no-unused-vars
 
 const logger = new Logger("login.service.ts");
 
 @Injectable()
 class LoginService {
-
     // TODO persist the list of banned users
     private bannedUsers = {} as { [email: string]: true };
     private activeUsers = {} as { [email: string]: number };
@@ -118,17 +114,21 @@ class LoginService {
         // logger.log(test);
         try {
             const res = await fetch(url, contents);
-            const auth0user: {
-                picture: string;
-                updated_at: string;
-                email: string;
-                email_verified: boolean;
-            } | { [key:string]:any } = await res.json();
+            const auth0user:
+                | {
+                      picture: string;
+                      updated_at: string;
+                      email: string;
+                      email_verified: boolean;
+                  }
+                | { [key: string]: any } = await res.json();
 
-            if (this.isBannedUser(auth0user.email))
-            {
-                logger.warn("bannedUser: " + auth0user.email, "AuthService-fuiut-02");
-                return this.noUser();   
+            if (this.isBannedUser(auth0user.email)) {
+                logger.warn(
+                    "bannedUser: " + auth0user.email,
+                    "AuthService-fuiut-02",
+                );
+                return this.noUser();
             }
             return {
                 userApp: {
@@ -167,9 +167,10 @@ class LoginService {
                     token_type: string;
                 } = await fetchRes.json();
                 try {
-                    const { userApp, userVisible } = await this.fetchUserInfoUsingTokens(
-                        tokens,
-                    );
+                    const {
+                        userApp,
+                        userVisible,
+                    } = await this.fetchUserInfoUsingTokens(tokens);
                     return {
                         userApp,
                         userVisible,
@@ -193,8 +194,7 @@ class LoginService {
     }
 
     public isBannedUser(email: string) {
-        if (this.bannedUsers[email])
-        {
+        if (this.bannedUsers[email]) {
             return true;
         }
         return false;
@@ -220,9 +220,10 @@ class LoginService {
         redirect: string;
     }> {
         try {
-            const { userApp, userVisible } = await this.fetchUserInfoUsingAccessCode(
-                code,
-            );
+            const {
+                userApp,
+                userVisible,
+            } = await this.fetchUserInfoUsingAccessCode(code);
             if (userApp === null || userVisible === null) {
                 logger.warn("bad login", "AuthService-postlogin-01");
                 return this.badLogin();

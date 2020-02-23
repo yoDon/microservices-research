@@ -2,14 +2,13 @@ import {
     Controller,
     Get,
     // Logger,
-    Req,
     Session,
     UseGuards,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Request } from "express"; // eslint-disable-line no-unused-vars
 
-import { IUserApp, IUserVisible } from ".";
+import { IUserApp } from "."; // eslint-disable-line no-unused-vars
 import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars
 import { UserGuard } from "./user.guard";
 
@@ -26,7 +25,7 @@ class AuthController {
         status: 200,
         description: "JSON",
     })
-    userinfo(@Session() session: { user:IUserApp }, @Req() req: Request) {
+    userinfo(@Session() session: { user: IUserApp }) {
         return this.authService.getUserInfo(session.user);
     }
 }

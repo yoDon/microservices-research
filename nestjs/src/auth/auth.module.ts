@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { CookieSessionModule } from "nestjs-cookie-session";
 
+import { cookieSecret } from "../env";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { CookieSerializer } from "./cookie.serializer";
-import { cookieSecret } from "../env";
 
 @Module({
     imports: [
@@ -21,5 +21,4 @@ import { cookieSecret } from "../env";
     providers: [AuthService, CookieSerializer],
     controllers: [AuthController],
 })
-
 export class AuthModule {}

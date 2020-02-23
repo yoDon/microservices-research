@@ -5,7 +5,7 @@ export type IUserApp = null | {
     expiresAt: number;
     pictureUrl: string;
     roles?: {
-        [role:string]: boolean;
+        [role: string]: boolean;
     };
     updatedAt: string;
 };
@@ -21,9 +21,9 @@ export type IUserInfo = null | {
     emailVerified: boolean;
     pictureUrl: string;
     roles?: {
-        [role:string]: boolean;
+        [role: string]: boolean;
     };
-}
+};
 
 // export {
 //     // IUserApp,

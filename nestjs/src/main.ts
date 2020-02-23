@@ -1,6 +1,6 @@
 import {
     // Logger,
-    NestApplicationOptions,
+    NestApplicationOptions, // eslint-disable-line no-unused-vars
     ValidationPipe,
 } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
@@ -20,7 +20,7 @@ dotenv.config();
 // const logger = new Logger("main.ts");
 
 async function bootstrap() {
-    const appOptions:NestApplicationOptions = {
+    const appOptions: NestApplicationOptions = {
         cors: true,
         logger: console,
     };

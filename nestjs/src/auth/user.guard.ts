@@ -6,21 +6,28 @@ import {
     Injectable,
     UnauthorizedException,
 } from "@nestjs/common";
-import { AuthService } from "./auth.service";
+
+import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars
 
 //
 // Require caller to be signed in with a non-banned user account
 //
 @Injectable()
 class UserGuard implements CanActivate {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+        private readonly authService: AuthService, // eslint-disable-line no-unused-vars
+    ) {}
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> {
         const httpContext = context.switchToHttp();
         const request = httpContext.getRequest();
         try {
             if (request.session.user && request.session.user.email) {
-                if (this.authService.isBannedUser(request.session.user.email) === false) {
+                if (
+                    this.authService.isBannedUser(
+                        request.session.user.email,
+                    ) === false
+                ) {
                     this.authService.sawUser(request.session.user.email);
                     return true;
                 }
