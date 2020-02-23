@@ -5,7 +5,7 @@ import { CookieSessionModule } from "nestjs-cookie-session";
 import { LoginController } from "./login.controller";
 import { LoginService } from "./login.service";
 import { CookieSerializer } from "../auth/cookie.serializer";
-import { cookieSecret } from "../../constants";
+import { cookieSecret } from "../constants";
 
 @Module({
     imports: [

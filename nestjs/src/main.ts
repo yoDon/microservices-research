@@ -13,7 +13,7 @@ import * as passport from "passport";
 import { join } from "path";
 
 import { AppModule } from "./app/app.module";
-import { port } from "../constants";
+import { port } from "./constants";
 
 dotenv.config();
 

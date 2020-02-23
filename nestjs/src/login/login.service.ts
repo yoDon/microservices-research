@@ -11,7 +11,7 @@ import {
     auth0clientSecret,
     auth0domain,
     loginErrorUrl,
-} from "../../constants";
+} from "../constants";
 import { IUserApp, IUserVisible } from "../auth"; // eslint-disable-line no-unused-vars
 
 const logger = new Logger("login.service.ts");
