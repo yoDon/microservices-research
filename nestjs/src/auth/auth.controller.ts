@@ -6,7 +6,6 @@ import {
     UseGuards,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { Request } from "express"; // eslint-disable-line no-unused-vars
 
 import { IUserApp } from "."; // eslint-disable-line no-unused-vars
 import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars

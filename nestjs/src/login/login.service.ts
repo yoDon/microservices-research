@@ -4,17 +4,24 @@ import * as fetch from "isomorphic-fetch";
 
 import { IUserApp, IUserVisible } from "../auth"; // eslint-disable-line no-unused-vars
 import {
+    CryptoSignService, // eslint-disable-line no-unused-vars
+} from "../cryptoSign/cryptoSign.service";
+import {
     auth0audience,
     auth0client,
     auth0clientSecret,
     auth0domain,
     loginErrorUrl,
-} from "../env";
+} from "../envConstants";
 
 const logger = new Logger("login.service.ts");
 
 @Injectable()
 class LoginService {
+    constructor(
+        private readonly cryptoSignService: CryptoSignService, // eslint-disable-line no-unused-vars
+    ) {}
+
     // TODO persist the list of banned users
     private bannedUsers = {} as { [email: string]: true };
     private activeUsers = {} as { [email: string]: number };
@@ -22,14 +29,15 @@ class LoginService {
     private noUser() {
         return {
             userApp: null as IUserApp,
+            userAppSignature: "",
             userVisible: null as IUserVisible,
+            userVisibleSignature: "",
         };
     }
 
     private badLogin() {
         return {
-            userApp: null as IUserApp,
-            userVisible: null as IUserVisible,
+            ...this.noUser(),
             redirect: loginErrorUrl,
         };
     }
@@ -130,24 +138,32 @@ class LoginService {
                 );
                 return this.noUser();
             }
+            const userApp: IUserApp = {
+                accessToken: tokens.access_token,
+                //
+                // NOTE: JWT expires_in has units of seconds, javascript times are in milliseconds
+                //
+                expiresAt: Date.now() + tokens.expires_in * 1000,
+                pictureUrl: auth0user.picture,
+                updatedAt: auth0user.updated_at,
+                email: auth0user.email,
+                emailVerified: auth0user.email_verified,
+                roles: JSON.parse(auth0user["https://example.com/roles"]),
+            };
+            const userVisible: IUserVisible = {
+                loggedIn: true,
+                pictureUrl: auth0user.picture,
+                emailVerified: auth0user.email_verified,
+            };
+            const userAppSignature = this.cryptoSignService.cryptoSign(userApp);
+            const userVisibleSignature = this.cryptoSignService.cryptoSign(
+                userVisible,
+            );
             return {
-                userApp: {
-                    accessToken: tokens.access_token,
-                    //
-                    // NOTE: JWT expires_in has units of seconds, javascript times are in milliseconds
-                    //
-                    expiresAt: Date.now() + tokens.expires_in * 1000,
-                    pictureUrl: auth0user.picture,
-                    updatedAt: auth0user.updated_at,
-                    email: auth0user.email,
-                    emailVerified: auth0user.email_verified,
-                    roles: JSON.parse(auth0user["https://example.com/roles"]),
-                } as IUserApp,
-                userVisible: {
-                    loggedIn: true,
-                    pictureUrl: auth0user.picture,
-                    emailVerified: auth0user.email_verified,
-                } as IUserVisible,
+                userApp,
+                userAppSignature,
+                userVisible,
+                userVisibleSignature,
             };
         } catch (reason) {
             logger.warn(reason, "AuthService-fuiut-01");
@@ -167,14 +183,10 @@ class LoginService {
                     token_type: string;
                 } = await fetchRes.json();
                 try {
-                    const {
-                        userApp,
-                        userVisible,
-                    } = await this.fetchUserInfoUsingTokens(tokens);
-                    return {
-                        userApp,
-                        userVisible,
-                    };
+                    const userInfo = await this.fetchUserInfoUsingTokens(
+                        tokens,
+                    );
+                    return userInfo;
                 } catch (reason) {
                     logger.warn(reason, "AuthService-fuiuac-01");
                     return this.noUser();
@@ -216,22 +228,25 @@ class LoginService {
         state: string,
     ): Promise<{
         userApp: IUserApp;
+        userAppSignature: string;
         userVisible: IUserVisible;
+        userVisibleSignature: string;
         redirect: string;
     }> {
         try {
-            const {
-                userApp,
-                userVisible,
-            } = await this.fetchUserInfoUsingAccessCode(code);
-            if (userApp === null || userVisible === null) {
+            const userInfo = await this.fetchUserInfoUsingAccessCode(code);
+            if (
+                userInfo.userApp === null ||
+                userInfo.userVisible === null ||
+                userInfo.userAppSignature === "" ||
+                userInfo.userVisibleSignature === ""
+            ) {
                 logger.warn("bad login", "AuthService-postlogin-01");
                 return this.badLogin();
             }
             const reactAppUrl = this.constructAppUrl(state);
             return {
-                userApp,
-                userVisible,
+                ...userInfo,
                 redirect: reactAppUrl,
             };
         } catch (reason) {

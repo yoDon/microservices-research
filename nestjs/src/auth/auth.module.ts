@@ -2,7 +2,8 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { CookieSessionModule } from "nestjs-cookie-session";
 
-import { cookieSecret } from "../env";
+import { CryptoVerifyModule } from "../cryptoVerify/cryptoVerify.module";
+import { cookieSecret } from "../envConstants";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { CookieSerializer } from "./cookie.serializer";
@@ -17,6 +18,7 @@ import { CookieSerializer } from "./cookie.serializer";
                 httpOnly: true,
             },
         }),
+        CryptoVerifyModule,
     ],
     providers: [AuthService, CookieSerializer],
     controllers: [AuthController],

@@ -9,8 +9,11 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Request, Response } from "express"; // eslint-disable-line no-unused-vars
+import {
+    IUserApp, // eslint-disable-line no-unused-vars
+} from "src/auth";
 
-import { loginErrorUrl } from "../env";
+import { loginErrorUrl } from "../envConstants";
 import { LoginService } from "./login.service"; // eslint-disable-line no-unused-vars
 
 const logger = new Logger("login.controller.ts");
@@ -42,7 +45,7 @@ class LoginController {
         description: "Redirects to SPA path set in state with cookie set",
     })
     async postlogin(
-        @Session() session: { user?: any },
+        @Session() session: { user?: IUserApp; userSignature?: string },
         @Query("code") code: string,
         @Query("state") state: string,
         @Req() req: Request,
@@ -51,7 +54,9 @@ class LoginController {
         try {
             const {
                 userApp,
+                userAppSignature,
                 userVisible,
+                userVisibleSignature,
                 redirect,
             } = await this.loginService.postlogin(code, state);
             //
@@ -61,7 +66,9 @@ class LoginController {
             // separate user cookie that can be read client-side
             //
             session.user = userApp; // eslint-disable-line require-atomic-updates
+            session.userSignature = userAppSignature; // eslint-disable-line require-atomic-updates
             res.cookie("user", JSON.stringify(userVisible));
+            res.cookie("usersignature", userVisibleSignature);
             res.redirect(redirect);
         } catch (reason) {
             logger.warn(reason, "LoginController-postlogin-01");
@@ -97,13 +104,18 @@ class LoginController {
         status: 304,
         description: "Redirects to SPA path set in state with cookie cleared",
     })
-    postlogout(@Session() session: { user?: any }, @Res() res: Response) {
+    postlogout(
+        @Session() session: { user?: any; userSignature?: string },
+        @Res() res: Response,
+    ) {
         try {
             const redirect = this.loginService.postlogout();
             if (session && session.user) {
                 delete session.user;
+                delete session.userSignature;
             }
             res.clearCookie("user");
+            res.clearCookie("usersignature");
             res.redirect(redirect);
         } catch (reason) {
             logger.warn(reason, "LoginController-postlogout-01");

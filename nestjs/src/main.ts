@@ -13,7 +13,7 @@ import * as passport from "passport";
 import { join } from "path";
 
 import { AppModule } from "./app/app.module";
-import { port } from "./env";
+import { port } from "./envConstants";
 
 dotenv.config();
 
@@ -30,9 +30,6 @@ async function bootstrap() {
     );
 
     app.useGlobalPipes(new ValidationPipe());
-    app.useStaticAssets(join(__dirname, "../dist_client"));
-    app.use(passport.initialize());
-    app.use(passport.session());
     app.setGlobalPrefix("api");
 
     const options = new DocumentBuilder()
@@ -43,6 +40,11 @@ async function bootstrap() {
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup("/docs", app, document);
+
+    const staticAssetPath = join(__dirname, "./dist_client");
+    app.useStaticAssets(staticAssetPath);
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     await app.listen(port);
 }

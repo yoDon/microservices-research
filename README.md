@@ -1,15 +1,20 @@
 ## Todo
-- [ ] Add user session creator vs session consumer modules
-        - [X] get rid of hard-coded constants.ts, convert into env reader class
-        - [X] separate Auth and Login modules so one can construct user ID, other consume
-        - [ ] Add rsa key pair to env vars
-                see https://stackoverflow.com/a/53650554
-                and https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback
-        - [ ] use rsa key pair in Auth and Login modules
-        - [ ] extend demo module to have an authed controller
+- [X] Add separate Login and Auth modules to create and consume sessions
+    - [X] get rid of hard-coded constants.ts, convert into env reader class
+    - [X] separate Auth and Login modules so one can construct user ID, other consume
+    - [X] Add rsa key pair files
+    - [X] add sign and verify modules
+    - [X] LoginService should sign user info
+    - [X] LoginController should add signatures to cookies
+    - [X] UserGuard and AdminGuard should verify signature of user info
+- [ ] Move LoginService into its own nestjs service running on a different port
+    - [ ] keep original nestjs generically named
+    - [ ] make top-level package.json file with scripts to run children
+    - [ ] use --prefix on npm run commands to specify sub-folder
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Design api and functionality
         - [ ] QUESTIONS
+            - [ ] WHAT ABOUT change sets version tracking
             - [ ] WHAT ABOUT true deletion/overwriting?
             - [X] WHAT ABOUT custom roles?
                 Application programmers handle custom roles by varying file permissions explicitly

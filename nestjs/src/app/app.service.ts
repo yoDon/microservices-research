@@ -7,7 +7,7 @@ import {
 
 @Injectable()
 class AppService {
-    getHello(): string {
+    public getHello(): string {
         return "Hello World!";
     }
 }
