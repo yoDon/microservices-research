@@ -1,17 +1,29 @@
 export type IUserApp = null | {
     accessToken: string;
-    expiresAt: number;
-    pictureUrl: string;
-    updatedAt: string;
     email: string;
     emailVerified: boolean;
+    expiresAt: number;
+    pictureUrl: string;
+    roles?: {
+        [role:string]: boolean;
+    };
+    updatedAt: string;
 };
 
 export type IUserVisible = null | {
+    emailVerified: boolean;
     loggedIn: boolean;
     pictureUrl: string;
-    emailVerified: boolean;
 };
+
+export type IUserInfo = null | {
+    email: string;
+    emailVerified: boolean;
+    pictureUrl: string;
+    roles?: {
+        [role:string]: boolean;
+    };
+}
 
 // export {
 //     // IUserApp,

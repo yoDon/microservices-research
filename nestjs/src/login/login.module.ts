@@ -2,9 +2,9 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { CookieSessionModule } from "nestjs-cookie-session";
 
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
-import { CookieSerializer } from "./cookie.serializer";
+import { LoginController } from "./login.controller";
+import { LoginService } from "./login.service";
+import { CookieSerializer } from "../auth/cookie.serializer";
 import { cookieSecret } from "../../constants";
 
 @Module({
@@ -18,8 +18,8 @@ import { cookieSecret } from "../../constants";
             },
         }),
     ],
-    providers: [AuthService, CookieSerializer],
-    controllers: [AuthController],
+    providers: [LoginService, CookieSerializer],
+    controllers: [LoginController],
 })
 
-export class AuthModule {}
+export class LoginModule {}

@@ -1,8 +1,12 @@
 ## Todo
 - [ ] Add user session creator vs session consumer modules
-        see https://stackoverflow.com/a/53650554
-        and https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback
         - [X] get rid of hard-coded constants.ts, convert into env reader class
+        - [X] separate Auth and Login modules so one can construct user ID, other consume
+        - [ ] Add rsa key pair to env vars
+                see https://stackoverflow.com/a/53650554
+                and https://nodejs.org/api/crypto.html#crypto_crypto_generatekeypair_type_options_callback
+        - [ ] use rsa key pair in Auth and Login modules
+        - [ ] extend demo module to have an authed controller
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Design api and functionality
         - [ ] QUESTIONS

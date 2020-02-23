@@ -22,7 +22,7 @@ const ProfileButtonImpl: React.FC<RouteComponentProps> = (props) => {
         // NOTE: use window.location not history.push
         //       because the browser needs to go outside
         //       the router's set of routes
-        window.location.href = "http://localhost:3001/api/auth/prelogout";
+        window.location.href = "http://localhost:3001/api/login/prelogout";
     };
 
     return (

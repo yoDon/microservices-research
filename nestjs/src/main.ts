@@ -13,6 +13,7 @@ import * as passport from "passport";
 import { join } from "path";
 
 import { AppModule } from "./app/app.module";
+import { port } from "../constants";
 
 dotenv.config();
 
@@ -43,6 +44,6 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup("/docs", app, document);
 
-    await app.listen(process.env.PORT);
+    await app.listen(port);
 }
 bootstrap();

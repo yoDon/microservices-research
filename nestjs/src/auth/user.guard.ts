@@ -3,6 +3,7 @@
 import {
     CanActivate, // eslint-disable-line no-unused-vars
     ExecutionContext, // eslint-disable-line no-unused-vars
+    Injectable,
     UnauthorizedException,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
@@ -10,6 +11,7 @@ import { AuthService } from "./auth.service";
 //
 // Require caller to be signed in with a non-banned user account
 //
+@Injectable()
 class UserGuard implements CanActivate {
     constructor(private readonly authService: AuthService) {}
 
