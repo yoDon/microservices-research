@@ -9,9 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Request, Response } from "express"; // eslint-disable-line no-unused-vars
-import {
-    IUserApp, // eslint-disable-line no-unused-vars
-} from "src/auth";
+import { IUserInfo } from "src/auth"; // eslint-disable-line no-unused-vars
 
 import { loginErrorUrl } from "../envConstants";
 import { LoginService } from "./login.service"; // eslint-disable-line no-unused-vars
@@ -45,7 +43,7 @@ class LoginController {
         description: "Redirects to SPA path set in state with cookie set",
     })
     async postlogin(
-        @Session() session: { user?: IUserApp; userSignature?: string },
+        @Session() session: { userInfo?: IUserInfo },
         @Query("code") code: string,
         @Query("state") state: string,
         @Req() req: Request,
@@ -59,16 +57,20 @@ class LoginController {
                 userVisibleSignature,
                 redirect,
             } = await this.loginService.postlogin(code, state);
+            const userInfo: IUserInfo = {
+                userApp,
+                userAppSignature,
+                userVisible,
+                userVisibleSignature,
+            };
             //
             // place the app-visible data into a session cookie sent
             // to the client encrypted and which is only readable
             // server-side, and place the user-visible data into a
             // separate user cookie that can be read client-side
             //
-            session.user = userApp; // eslint-disable-line require-atomic-updates
-            session.userSignature = userAppSignature; // eslint-disable-line require-atomic-updates
+            session.userInfo = userInfo; // eslint-disable-line require-atomic-updates
             res.cookie("user", JSON.stringify(userVisible));
-            res.cookie("usersignature", userVisibleSignature);
             res.redirect(redirect);
         } catch (reason) {
             logger.warn(reason, "LoginController-postlogin-01");
@@ -82,18 +84,20 @@ class LoginController {
         status: 304,
         description: "Redirects to external logout page",
     })
-    prelogout(@Session() session: { user?: any }, @Res() res: Response) {
+    prelogout(
+        @Session() session: { userInfo?: IUserInfo },
+        @Res() res: Response,
+    ) {
+        if (session && session.userInfo) {
+            delete session.userInfo;
+        }
+        res.clearCookie("user");
+        res.clearCookie("usersignature");
         try {
-            if (session && session.user) {
-                delete session.user;
-            }
             const logoutUrl = this.loginService.prelogout();
             res.redirect(logoutUrl);
         } catch (reason) {
             logger.warn(reason, "LoginController-prelogout-01");
-            if (session && session.user) {
-                delete session.user;
-            }
             res.redirect(loginErrorUrl);
         }
     }
@@ -105,23 +109,19 @@ class LoginController {
         description: "Redirects to SPA path set in state with cookie cleared",
     })
     postlogout(
-        @Session() session: { user?: any; userSignature?: string },
+        @Session() session: { userInfo?: IUserInfo },
         @Res() res: Response,
     ) {
+        if (session && session.userInfo) {
+            delete session.userInfo;
+        }
+        res.clearCookie("user");
+        res.clearCookie("usersignature");
         try {
             const redirect = this.loginService.postlogout();
-            if (session && session.user) {
-                delete session.user;
-                delete session.userSignature;
-            }
-            res.clearCookie("user");
-            res.clearCookie("usersignature");
             res.redirect(redirect);
         } catch (reason) {
             logger.warn(reason, "LoginController-postlogout-01");
-            if (session && session.user) {
-                delete session.user;
-            }
             res.redirect(loginErrorUrl);
         }
     }

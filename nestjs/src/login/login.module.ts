@@ -3,7 +3,6 @@ import { PassportModule } from "@nestjs/passport";
 import { CookieSessionModule } from "nestjs-cookie-session";
 
 import { CookieSerializer } from "../auth/cookie.serializer";
-import { CryptoSignModule } from "../cryptoSign/cryptoSign.module";
 import { cookieSecret } from "../envConstants";
 import { LoginController } from "./login.controller";
 import { LoginService } from "./login.service";
@@ -18,7 +17,6 @@ import { LoginService } from "./login.service";
                 httpOnly: true,
             },
         }),
-        CryptoSignModule,
     ],
     providers: [LoginService, CookieSerializer],
     controllers: [LoginController],

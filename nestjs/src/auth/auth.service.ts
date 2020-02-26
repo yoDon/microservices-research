@@ -13,12 +13,8 @@ class AuthService {
     private bannedUsers = {} as { [email: string]: true };
     private activeUsers = {} as { [email: string]: number };
 
-    public getUserInfo(user: IUserApp): IUserInfo {
-        const userinfo: IUserApp = { ...user };
-        delete userinfo.accessToken;
-        delete userinfo.expiresAt;
-        delete userinfo.updatedAt;
-        return userinfo;
+    public getUser(userInfo: IUserInfo) {
+        return userInfo.userVisible;
     }
 
     public isBannedUser(email: string) {

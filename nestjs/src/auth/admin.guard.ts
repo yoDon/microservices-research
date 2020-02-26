@@ -8,6 +8,7 @@ import {
 } from "@nestjs/common";
 import { CryptoVerifyService } from "src/cryptoVerify/cryptoVerify.service"; // eslint-disable-line no-unused-vars
 
+import { IUserInfo } from "."; // eslint-disable-line no-unused-vars
 import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars
 
 const logger = new Logger("admin.guard.ts");
@@ -25,28 +26,37 @@ class AdminGuard implements CanActivate {
         const httpContext = context.switchToHttp();
         const request = httpContext.getRequest();
         try {
-            if (request.session.user && request.session.user.email) {
+            const userInfo: IUserInfo | undefined = request.session.userInfo;
+            if (userInfo && userInfo.userApp && userInfo.userApp.email) {
                 if (
                     this.cryptoVerifyService.cryptoVerify(
-                        request.session.user,
-                        request.session.userSignature,
+                        userInfo.userApp,
+                        userInfo.userAppSignature,
                     ) !== true
                 ) {
-                    logger.warn("invalid user signature", "ca-01");
+                    logger.warn("invalid userApp signature", "ca-01");
                     return false;
                 }
                 if (
-                    this.authService.isBannedUser(
-                        request.session.user.email,
-                    ) === false
+                    this.cryptoVerifyService.cryptoVerify(
+                        userInfo.userVisible,
+                        userInfo.userVisibleSignature,
+                    ) !== true
                 ) {
-                    this.authService.sawUser(request.session.user.email);
-                    if (request.session.user.roles) {
-                        if (request.session.user.roles.admin) {
+                    logger.warn("invalid userVisible signature", "ca-02");
+                    return false;
+                }
+                if (
+                    this.authService.isBannedUser(userInfo.userApp.email) ===
+                    false
+                ) {
+                    this.authService.sawUser(userInfo.userApp.email);
+                    if (userInfo.userApp.roles) {
+                        if (userInfo.userApp.roles.admin) {
                             return true;
                         }
                         logger.warn(
-                            "notAdmin: " + request.session.user.email,
+                            "notAdmin: " + userInfo.userApp.email,
                             "canActivate01",
                         );
                     }

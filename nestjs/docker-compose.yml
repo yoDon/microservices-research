@@ -18,7 +18,7 @@ services:
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
       - 9229:9229
-    command: npm run start:debug-docker
+    command: npm run start:debug
     env_file:
       - .env
     networks:

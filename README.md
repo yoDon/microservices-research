@@ -1,16 +1,17 @@
 ## Todo
-- [X] Add separate Login and Auth modules to create and consume sessions
-    - [X] get rid of hard-coded constants.ts, convert into env reader class
-    - [X] separate Auth and Login modules so one can construct user ID, other consume
-    - [X] Add rsa key pair files
-    - [X] add sign and verify modules
-    - [X] LoginService should sign user info
-    - [X] LoginController should add signatures to cookies
-    - [X] UserGuard and AdminGuard should verify signature of user info
 - [ ] Move LoginService into its own nestjs service running on a different port
-    - [ ] keep original nestjs generically named
+    - [BUG] .env vars not loading in new project
+    - [TEST] old nestjs should fetch userInfo from login-api
+    - [TEST] stash full IUserInfo under session
+    - [ ] rename nestjs to main
+        - [ ] filesystem
+        - [ ] docker-compose
+    - [ ] move docker-compose up one folder
+    - [ ] add login-api to docker-compose
     - [ ] make top-level package.json file with scripts to run children
     - [ ] use --prefix on npm run commands to specify sub-folder
+
+- [ ] Use Redis cache
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Design api and functionality
         - [ ] QUESTIONS
