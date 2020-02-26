@@ -4,14 +4,16 @@
     - [TEST] old nestjs should fetch userInfo from login-api
     - [TEST] stash full IUserInfo under session
     - [ ] rename nestjs to main
-        - [ ] filesystem
-        - [ ] docker-compose
+        - [X] rename in filesystem
+        - [ ] rename in docker-compose
     - [ ] move docker-compose up one folder
     - [ ] add login-api to docker-compose
     - [ ] make top-level package.json file with scripts to run children
-    - [ ] use --prefix on npm run commands to specify sub-folder
+    - [ ] use either concurrently or --prefix on npm run commands to specify sub-folder
 
 - [ ] Use Redis cache
+    - [ ] Cache sessions server-side in Redis
+    - [ ] Stash banned users status in Redis
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Design api and functionality
         - [ ] QUESTIONS
