@@ -10,13 +10,14 @@ services:
   main:
     container_name: main
     build:
-      context: .
+      context: ./main
+      dockerfile: Dockerfile
       target: development
     volumes:
-      - .:/usr/src/app
+      - ./main:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${MAIN_PORT}:${MAIN_PORT}
       - 9229:9229
     command: npm run start:debug
     env_file:
@@ -24,7 +25,25 @@ services:
     networks:
       - webnet
     depends_on:
+      - loginapi
       - redis
+  loginapi:
+    container_name: loginapi
+    build:
+      context: ./login-api
+      dockerfile: login-api/Dockerfile
+      target: development
+    volumes:
+      - ./login-api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${LOGIN_PORT}:${LOGIN_PORT}
+      - 9230:9230
+    command: npm run start:debug
+    env_file:
+      - .env
+    networks:
+      - webnet
   redis:
     container_name: redis
     image: redis:5

@@ -8,12 +8,9 @@ import {
     NestExpressApplication, // eslint-disable-line no-unused-vars
 } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as dotenv from "dotenv";
 
 import { AppModule } from "./app/app.module";
 import { port } from "./envConstants";
-
-dotenv.config();
 
 // const logger = new Logger("main.ts");
 

@@ -8,6 +8,7 @@ import {
     auth0client,
     auth0domain,
     loginApiDomain,
+    loginApiPort,
     loginErrorUrl,
 } from "../envConstants";
 
@@ -78,7 +79,7 @@ class LoginService {
     ): Promise<IUserInfo> {
         const url =
             "http://" +
-            loginApiDomain +
+            loginApiDomain + ":" + loginApiPort +
             "/api/login/userInfo?accessCode=" +
             accessCode;
         const contents = {

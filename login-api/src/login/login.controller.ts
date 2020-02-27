@@ -14,9 +14,9 @@ class LoginController {
 
     @Get("userInfo")
     @ApiOperation({ summary: "Get user info after login" })
-    async userInfo(@Query("code") code: string): Promise<IUserInfo> {
+    async userInfo(@Query("accessCode") accessCode: string): Promise<IUserInfo> {
         try {
-            const result: IUserInfo = await this.loginService.getUserInfo(code);
+            const result: IUserInfo = await this.loginService.getUserInfo(accessCode);
             return result;
         } catch (reason) {
             logger.warn(reason, "LoginController-userInfo-01");

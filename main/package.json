@@ -2,12 +2,9 @@
   "name": "nestjs",
   "version": "0.0.1",
   "scripts": {
-    "docker": "npm run import-web && docker-compose up",
-    "docker-freshen-npm": "npm run import-web && docker-compose up --build -V",
     "prebuild": "rimraf dist && npm run import-web",
     "import-web": "cpx --clean ../web-app/build/** dist/dist_client",
     "build": "npm run import-web && nest build",
-    "old-format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npm run import-web && nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch",

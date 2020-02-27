@@ -1,20 +1,13 @@
 ## Todo
-- [ ] Move LoginService into its own nestjs service running on a different port
-    - [BUG] .env vars not loading in new project
-    - [TEST] old nestjs should fetch userInfo from login-api
-    - [TEST] stash full IUserInfo under session
-    - [ ] rename nestjs to main
-        - [X] rename in filesystem
-        - [ ] rename in docker-compose
-    - [ ] move docker-compose up one folder
-    - [ ] add login-api to docker-compose
-    - [ ] make top-level package.json file with scripts to run children
-    - [ ] use either concurrently or --prefix on npm run commands to specify sub-folder
+- [X] Move LoginService into its own nestjs service running on a different port
+    - [X] stash full IUserInfo under session
+    - [X] make top-level package.json file with scripts to run children
 
 - [ ] Use Redis cache
     - [ ] Cache sessions server-side in Redis
     - [ ] Stash banned users status in Redis
 - [ ] Make Nest-based versioning S3 file manager service
+    - [ ] >>>Start with just accessing previously uploaded files
     - [ ] Design api and functionality
         - [ ] QUESTIONS
             - [ ] WHAT ABOUT change sets version tracking

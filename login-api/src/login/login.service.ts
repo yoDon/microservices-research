@@ -132,9 +132,9 @@ class LoginService {
         }
     }
 
-    public async getUserInfo(code: string): Promise<IUserInfo> {
+    public async getUserInfo(accessCode: string): Promise<IUserInfo> {
         try {
-            const userInfo = await this.fetchUserInfoUsingAccessCode(code);
+            const userInfo = await this.fetchUserInfoUsingAccessCode(accessCode);
             if (
                 userInfo.userApp === null ||
                 userInfo.userVisible === null ||
