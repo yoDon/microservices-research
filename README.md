@@ -38,17 +38,10 @@
                         orgIdHash6_o_{id}/ <------- S3 recommends root folder starts with 6-8 hash-style
                             org.json
                             roles.json <----------- Role IDs are scoped by owning org (can be granted to members of any org)
-<<<<<<< HEAD
                             files.json <----------- All files an org has explicit permissions to
                         accountIdHash6_u_{id}/ <--- S3 recommends root folder starts with 6-8 hash-style chars
                             account.json
                             files.json <----------- All files a user has explicit permissions to
-=======
-                            files.json <----------- All files an org has permissions to
-                        accountIdHash6_u_{id}/ <--- S3 recommends root folder starts with 6-8 hash-style chars
-                            account.json
-                            files.json <----------- All files a user has permissions to
->>>>>>> da5ad7163226d99977bf806a762ef4b33714b58c
                             commits.json <--------- Journal of all commits (accountId, date, multiple file versions or perm changes)
                         folderIdHash6_f_{id}/
                             list.json -----> incl. perms, only leaf perms.json needs to be checked
