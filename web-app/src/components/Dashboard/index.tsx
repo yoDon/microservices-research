@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,7 +12,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import MenuIcon from "@material-ui/icons/Menu";
-import clsx from "clsx";
 import React from "react";
 import { RouteComponentProps } from "react-router";
 
@@ -31,14 +31,12 @@ const Copyright: React.FC = () => {
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme:any) => {
     return {
         root: {
             display: "flex",
         },
-        toolbar: {
-            paddingRight: 24, // keep right padding when drawer closed
-        },
+        toolbar: theme.mixins.toolbar,
         toolbarIcon: {
             display: "flex",
             alignItems: "center",
@@ -47,48 +45,28 @@ const useStyles = makeStyles((theme) => {
             ...theme.mixins.toolbar,
         },
         appBar: {
-            zIndex: theme.zIndex.drawer + 1,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-        },
-        appBarShift: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
+            [theme.breakpoints.up('sm')]: {
+                width: `calc(100% - ${drawerWidth}px)`,
+                marginLeft: drawerWidth,
+            },
         },
         menuButton: {
-            marginRight: 36,
-        },
-        menuButtonHidden: {
-            display: "none",
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.up('sm')]: {
+              display: 'none',
+            },
         },
         title: {
             flexGrow: 1,
         },
-        drawerPaper: {
-            position: "relative",
-            whiteSpace: "nowrap",
-            width: drawerWidth,
-            transition: theme.transitions.create("width", {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-        drawerPaperClose: {
-            overflowX: "hidden",
-            transition: theme.transitions.create("width", {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            width: theme.spacing(7),
-            [theme.breakpoints.up("sm")]: {
-                width: theme.spacing(9),
+        drawer: {
+            [theme.breakpoints.up('sm')]: {
+              width: drawerWidth,
+              flexShrink: 0,
             },
+        },
+        drawerPaper: {
+            width: drawerWidth,
         },
         appBarSpacer: theme.mixins.toolbar,
         content: {
@@ -109,34 +87,81 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
-const Dashboard: React.FC<RouteComponentProps> = (props) => {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+const DrawerContents: React.FC = () => {
+    return (
+        <>
+            <Divider />
+            <MainListItems />
+            <Divider />
+            <SecondaryListItems />
+        </>
+    );
+}
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
+const ResponsiveDrawer: React.FC<{ mobileOpen: boolean, handleDrawerToggle: () => void }> = (props) => {
+    const classes = useStyles();
+    return (
+        <nav className={classes.drawer}>
+            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            <Hidden smUp implementation="css">
+                <Drawer
+                    variant="temporary"
+                    open={props.mobileOpen}
+                    onClose={props.handleDrawerToggle}
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                >
+                    <div className={classes.toolbarIcon}>
+                        <IconButton onClick={props.handleDrawerToggle}>
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </div>
+                    <>
+                        {props.children}
+                    </>
+                </Drawer>
+            </Hidden>
+            <Hidden xsDown implementation="css">
+                <Drawer
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                    variant="permanent"
+                    open
+                >
+                    {props.children}
+                </Drawer>
+            </Hidden>
+        </nav>
+    );
+}
+
+const Layout: React.FC<{ title: string }> = (props) => {
+    const classes = useStyles();
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const handleDrawerToggle = () => {
+      setMobileOpen(!mobileOpen);
     };
 
     return (
         <div className={classes.root}>
             <CssBaseline />
             <AppBar
-                position="absolute"
-                className={clsx(classes.appBar, open && classes.appBarShift)}
+                position="fixed"
+                className={classes.appBar}
             >
                 <Toolbar className={classes.toolbar}>
                     <IconButton
-                        edge="start"
-                        color="inherit"
                         aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(
-                            classes.menuButton,
-                            open && classes.menuButtonHidden,
-                        )}
+                        color="inherit"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -147,51 +172,49 @@ const Dashboard: React.FC<RouteComponentProps> = (props) => {
                         noWrap
                         className={classes.title}
                     >
-                        Dashboard
+                        {props.title}
                     </Typography>
                     <AuthButtons />
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                classes={{
-                    paper: clsx(
-                        classes.drawerPaper,
-                        !open && classes.drawerPaperClose,
-                    ),
-                }}
-                open={open}
-            >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
-                <MainListItems />
-                <Divider />
-                <SecondaryListItems />
-            </Drawer>
+            <ResponsiveDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
+                <DrawerContents />
+            </ResponsiveDrawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <OrderList />
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <DndExample />
-                            </Paper>
-                        </Grid>
-                    </Grid>
+                    {props.children}
                 </Container>
                 <Copyright />
             </main>
         </div>
     );
 };
+
+const DashboardContents: React.FC = () => {
+    const classes = useStyles();
+    return (
+        <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                    <OrderList />
+                </Paper>
+            </Grid>
+            <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                    <DndExample />
+                </Paper>
+            </Grid>
+        </Grid>
+    );
+}
+
+const Dashboard: React.FC<RouteComponentProps> = (props) => {
+    return (
+        <Layout title={"Dashboard"}>
+            <DashboardContents />
+        </Layout>
+    )
+}
 
 export { Dashboard };

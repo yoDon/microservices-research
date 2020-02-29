@@ -1,8 +1,4 @@
 ## Todo
-- [X] Move LoginService into its own nestjs service running on a different port
-    - [X] stash full IUserInfo under session
-    - [X] make top-level package.json file with scripts to run children
-
 - [ ] Use Redis cache
     - [ ] Cache sessions server-side in Redis
     - [ ] Stash banned users status in Redis
