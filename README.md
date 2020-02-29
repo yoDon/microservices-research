@@ -4,29 +4,45 @@
     - [ ] Stash banned users status in Redis
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] >>>Start with just accessing previously uploaded files
+        - [ ] Plan remap of existing files
+            - [ ] PnP files
+                - Single directory of catalog images, fbx, maya files
     - [ ] Design api and functionality
         - [ ] QUESTIONS
-            - [ ] WHAT ABOUT change sets version tracking
-            - [ ] WHAT ABOUT true deletion/overwriting?
-            - [X] WHAT ABOUT custom roles?
-                Application programmers handle custom roles by varying file permissions explicitly
-                Application programmers can interact with custom roles in their own code
+            - [X] HOW TO FIND all files a user can read or write?
+                - A:Org perms can give users wildcard access, only user-explicit perms can be tracked
             - [X] WHAT IF two uploads are requested and processed out of order?
-                They fill in the files without collision
-                They set version history array entries without collision
-                I think it's OK as long as version lister can deal with gaps in version history
+                - A:Version order is based on when you commit not when you request to upload
+                    - Version stack is linear list of GUID-identified commits
+            - [X] HOW TO TRACK commits?
+                - Each upload has a commit ID (userID + commitID)
+                - commit GUID is recorded in file.json history
+                - commit details recorded in user's commit.json file 
+            - [X] WHAT ABOUT merges and branches
+                - A:merges and branches are application-level responsibility
+                    - Merges are an app-specific, app developer problem not a library thing
+                    - The app developer needs their own code flow to handle it
+                    - If merges have to be app-specific, branches need to as well because branches are nothing without merges
+            - [X] WHAT ABOUT true deletion/overwriting?
+                - A:user-space operation on the user's bucket
+            - [X] WHAT ABOUT custom roles?
+                - A:custom roles are up to application developer
+                    - Application programmers can interact with custom role ID's in their own code
+                    - Application programmers handle custom roles by varying file permissions explicitly
         - [X] Directory structure
                     appBucket/ ----> Versioning is on, all of this is cached locally as it is used
                         _bannedUsers.json
                         _accountToHash.json 
                         _orgToHash.json
                         _folderToHash.json
-                        organizationIdHash6_o_{id}/ <--- S3 recommends root folder starts with 6-8 hash-style chars
+                        orgIdHash6_o_{id}/ <------- S3 recommends root folder starts with 6-8 hash-style
                             org.json
-                            files.json <----------- Files an org has permissions to
+                            roles.json <----------- Role IDs are scoped by owning org (can be granted to members of any org)
+                            files.json <----------- All files an org has explicit permissions to
                         accountIdHash6_u_{id}/ <--- S3 recommends root folder starts with 6-8 hash-style chars
                             account.json
-                            files.json <----------- Files a user has permissions to
+                            files.json <----------- All files a user has explicit permissions to
+                            commits.json <--------- Journal of all commits (accountId, date, multiple file versions or perm changes)
                         folderIdHash6_f_{id}/
                             list.json -----> incl. perms, only leaf perms.json needs to be checked
                             folderFoo/
@@ -42,13 +58,17 @@
                                     fileFoo.000003.bar
         - [ ] Wrapper SDK
             - [ ] Account
-                - [ ] BanUsers({userId}[])
+                - [ ] Login
+                - [ ] ModifySelf({userInfo})
+            - [ ] Admin
+                - [ ] Ban({user}[] | {org}[])
                 - [ ] AddUsers({user}[])
                 - [ ] AddOrg({org}[])
                 - [ ] ModifyUsers({user}[])
                 - [ ] ModifyOrgs({org}[])
             - [ ] Finder
-                - [ ] ListFiles({folder, filename?}[] | {user}[])
+                - [ ] ListFolders({folder}[])
+                - [ ] ListFiles({folder, filename?}[] | {user}[] | {folder, filename, version}[]) <-- last is for info on commit
                 - [ ] GetPerms({folder, filename}[])
                 - [ ] GetFiles({folder, filename, version?}[])
                 - [ ] PutPerms({folder, filename, perms}[])
@@ -64,6 +84,16 @@
             - [ ] Account Service
                 - [ ] Responsibilities
                     TODO
+                - [ ] permissions
+                    - [ ] can create cryptographically signed session cookie
+                    - [ ] can read data from Auth0 or etc.
+                    - [ ] can modify user_metadata in Auth0 or etc.
+                -[ ] methods
+                    - [ ] Login()
+                    - [ ] ModifySelf({userInfo})
+            - [ ] Admin Service
+                - [ ] Responsibilities
+                    TODO
                 - [ ] permissions under appBucket/
                     - [ ] can create, read, and modify /_bannedUsers.json
                     - [ ] can create, read, and modify /_accountToHash.json
@@ -71,6 +101,7 @@
                     - [ ] can create, read, and modify /_folderToHash.json
                     - [ ] can create, read, and modify */account.json
                     - [ ] can create, read, and modify */org.json
+                    - [ ] can create, read, and modify user_metadata and app_metadata in Auth0 or etc.
                 - [ ] methods
                     - [ ] GetBannedUsers()
                     - [ ] BanUsers({userId}[])
@@ -90,13 +121,12 @@
                     - [ ] can read */**/list.json
                     - [ ] can read */org.json
                     - [ ] can read */files.json
+                    - [ ] can read */commits.json
                 - [ ] methods
                     - [ ] RefreshBannedUsers()
-                    - [ ] ListFolders({folder}[]) --------------> returns names
-                    - [ ] ListFiles({folder}[] | {user}[]) -----> returns names
-                    - [ ] ListVersions({folder, filename}[]) ---> returns numbers
-                    - [ ] ListPerms({folder, filename}[]) ------> returns results
-                    - [ ] HOW TO FIND all files a user has perms for?
+                    - [ ] ListFolders({folder}[]) ----------------------> returns names
+                    - [ ] ListFiles({folder, filename?}[] | {user}[] | {folder, filename, version}[]) <-- last is for info on commit
+                    - [ ] ListPerms({folder, filename}[] | {user}[]) ---> returns perms for files or users
                     - [ ] AuthorizeDownloads({folder, filename, version?}) -----> returns tokens(s) for Download Service
                     - [ ] AuthorizePerms({folder, filename?, perms}[]) ---------> returns token(s) passed to Upload for Commit Service
                     - [ ] AuthorizeUpload({folder, filename, permissions}[]) ---> returns token(s) passed to Upload for Commit Service
