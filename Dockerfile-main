@@ -9,7 +9,7 @@ COPY package*.json ./
 
 RUN npm install --only=development
 
-COPY . .
+COPY ./main .
 
 RUN npm run build
 
@@ -20,7 +20,7 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY ./main/package*.json ./
 
 RUN npm install --only=production
 

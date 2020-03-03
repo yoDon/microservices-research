@@ -10,8 +10,8 @@ services:
   main:
     container_name: main
     build:
-      context: ./main
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile-main
       target: development
     volumes:
       - ./main:/usr/src/app
@@ -30,8 +30,8 @@ services:
   loginapi:
     container_name: loginapi
     build:
-      context: ./login-api
-      dockerfile: login-api/Dockerfile
+      context: .
+      dockerfile: Dockerfile-loginapi
       target: development
     volumes:
       - ./login-api:/usr/src/app
