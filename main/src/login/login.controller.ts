@@ -11,7 +11,7 @@ import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Request, Response } from "express"; // eslint-disable-line no-unused-vars
 import { IUserInfo } from "yodon-auth"; // eslint-disable-line no-unused-vars
 
-import { loginErrorUrl } from "../envConstants";
+import { loginErrorUrl } from "./envConstants";
 import { LoginService } from "./login.service"; // eslint-disable-line no-unused-vars
 
 const logger = new Logger("login.controller.ts");

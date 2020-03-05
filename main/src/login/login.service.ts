@@ -10,7 +10,7 @@ import {
     loginApiDomain,
     loginApiPort,
     loginErrorUrl,
-} from "../envConstants";
+} from "./envConstants";
 
 const logger = new Logger("login.service.ts");
 

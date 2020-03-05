@@ -5,7 +5,7 @@ import { IUserApp, IUserInfo, IUserVisible } from "yodon-auth"; // eslint-disabl
 import {
     CryptoSignService, // eslint-disable-line no-unused-vars
 } from "./cryptoSign/cryptoSign.service";
-import { auth0client, auth0clientSecret, auth0domain } from "../envConstants";
+import { auth0client, auth0clientSecret, auth0domain } from "./envConstants";
 
 const logger = new Logger("login.service.ts");
 
