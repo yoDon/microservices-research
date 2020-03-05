@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { Request, Response } from "express"; // eslint-disable-line no-unused-vars
-import { IUserInfo } from "src/auth"; // eslint-disable-line no-unused-vars
+import { IUserInfo } from "yodon-auth"; // eslint-disable-line no-unused-vars
 
 import { loginErrorUrl } from "../envConstants";
 import { LoginService } from "./login.service"; // eslint-disable-line no-unused-vars

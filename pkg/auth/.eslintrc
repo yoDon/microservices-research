@@ -1,0 +1,42 @@
+{
+    "env": {
+        "es6": true,
+        "jest": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:jest/recommended",
+        "plugin:prettier/recommended",
+        "prettier/@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "import",
+        "prettier",
+        "jest", 
+        "simple-import-sort"
+    ],
+    "rules": {
+        "@typescript-eslint/prefer-regexp-exec": "off",
+        "@typescript-eslint/prefer-includes": "off",
+        "no-console": "off",
+        "import/no-default-export": 2,
+        "prefer-spread": "warn",
+        "prettier/prettier": ["error"],
+        "simple-import-sort/sort": "error"
+    },
+    "overrides": [
+      {
+        "files": ["*.spec.ts"],
+        "env": {
+          "jest/globals": true
+        }
+      }
+    ]
+}

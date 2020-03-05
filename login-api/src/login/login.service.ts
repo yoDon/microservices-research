@@ -1,10 +1,10 @@
 import { Injectable, Logger } from "@nestjs/common";
 import * as fetch from "isomorphic-fetch";
 
-import { IUserApp, IUserInfo, IUserVisible } from "../auth"; // eslint-disable-line no-unused-vars
+import { IUserApp, IUserInfo, IUserVisible } from "yodon-auth"; // eslint-disable-line no-unused-vars
 import {
     CryptoSignService, // eslint-disable-line no-unused-vars
-} from "../cryptoSign/cryptoSign.service";
+} from "./cryptoSign/cryptoSign.service";
 import { auth0client, auth0clientSecret, auth0domain } from "../envConstants";
 
 const logger = new Logger("login.service.ts");
