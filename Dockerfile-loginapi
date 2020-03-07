@@ -5,11 +5,11 @@ FROM node:12.13-alpine As development
 
 WORKDIR /usr/src/app
 
-COPY ./login-api/package*.json ./
+COPY ./srvs/login-api/package*.json ./
 
 RUN npm install --only=development
 
-COPY ./login-api .
+COPY ./srvs/login-api .
 
 RUN npm run build
 
@@ -20,11 +20,11 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY ./login-api/package*.json ./
+COPY ./srvs/login-api/package*.json ./
 
 RUN npm install --only=production
 
-COPY ./login-api .
+COPY ./srvs/login-api .
 
 COPY --from=development /usr/src/app/dist ./dist
 

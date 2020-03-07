@@ -5,11 +5,11 @@ FROM node:12.13-alpine As development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY ./srvs/main/package*.json ./
 
 RUN npm install --only=development
 
-COPY ./main .
+COPY ./srvs/main .
 
 RUN npm run build
 
@@ -20,11 +20,11 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY ./main/package*.json ./
+COPY ./srvs/main/package*.json ./
 
 RUN npm install --only=production
 
-COPY . .
+COPY ./srvs/main .
 
 COPY --from=development /usr/src/app/dist ./dist
 

@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile-main
       target: development
     volumes:
-      - ./main:/usr/src/app
+      - ./srvs/main:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${MAIN_PORT}:${MAIN_PORT}
@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile-loginapi
       target: development
     volumes:
-      - ./login-api:/usr/src/app
+      - ./srvs/login-api:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${LOGIN_PORT}:${LOGIN_PORT}
