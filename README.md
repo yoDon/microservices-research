@@ -4,6 +4,14 @@
     - [ ] Stash banned users status in Redis
 - [ ] Make Nest-based versioning S3 file manager service
     - [ ] Start with just accessing previously uploaded files from a readonly file system
+        - [X] RSA public/private keys should be passed in via environment variables not files
+        - [ ] Main can create short-lived JWT auth-tokens for each of the services
+            - [ ] Tokens just say the bearer of this token is the named entity for the next 60 seconds
+            - [ ] Tokens are specific to each service
+            - [ ] Tokens just convey identity not authorization
+            - [ ] Tokens have unique nonce for treating as single-use
+            - [ ] Recipient of token is responsible for assessing authorization of identified holder
+            - [ ] Recipient of token is responsible for treating as single-use
     - [ ] Docs
         - [ ] Explain how to make multiple permission keys for minimizing service accesses
     - [ ] Design api and functionality

@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import * as crypto from "crypto";
-import * as fs from "fs";
-import * as path from "path";
 import stringify from "safe-stable-stringify";
+
+import { loginApiRsaPublic } from "../auth/envConstants";
 
 //
 // To generate keys see
@@ -15,10 +15,7 @@ const logger = new Logger("cryptoverify.service.ts");
 
 @Injectable()
 class CryptoVerifyService {
-  private readonly publicPath = path.resolve("./.rsa.public");
-  private readonly publicKey = fs.existsSync(this.publicPath)
-    ? fs.readFileSync(this.publicPath, "utf8").trim()
-    : "";
+  private readonly publicKey = loginApiRsaPublic;
 
   public cryptoVerify(objectToSign: object, signature: string) {
     if (this.publicKey) {

@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import * as crypto from "crypto";
-import * as fs from "fs";
-import * as path from "path";
 import stringify from "safe-stable-stringify";
+
+import { loginApiRsaPrivate } from "../envConstants";
 
 //
 // To generate keys see
@@ -15,10 +15,7 @@ const logger = new Logger("cyptosign.service.ts");
 
 @Injectable()
 class CryptoSignService {
-    private readonly privatePath = path.resolve("./.rsa.private");
-    private readonly privateKey = fs.existsSync(this.privatePath)
-        ? fs.readFileSync(this.privatePath, "utf8").trim()
-        : "";
+    private readonly privateKey = loginApiRsaPrivate;
 
     public cryptoSign(objectToSign: object) {
         if (this.privateKey) {

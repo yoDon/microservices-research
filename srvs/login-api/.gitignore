@@ -25,6 +25,3 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
-
-.rsa.private
-.rsa.public
