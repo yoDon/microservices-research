@@ -9,10 +9,8 @@
             - [ ] yodon-auth-sdk
             - [ ] yodon-login-sdk
             - [ ] others?
-        - [X] Remove unused boilerplate src/app/ controller.spec, controller, service
-        - [X] Rename yodon-auth and yodon-demo to yodon-auth-api and yodon-demo-api (since both have controllers)
-        - [ ] Rename login-api to auth-api (Dockerfile stuff)
-        - [ ] Remain main to main-site (Dockerfile stuff)
+        - [X] Rename login-api to auth-api
+        - [X] Remain main to main-site
     - [ ] Make Demo api & sdk module
         - [ ] Basics of demo-api NestJs project
             - [X] Basics of imported yodon-demo impl module

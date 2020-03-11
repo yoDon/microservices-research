@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import * as crypto from "crypto";
 import stringify from "safe-stable-stringify";
 
-import { loginApiRsaPublic } from "./envConstants";
+import { authApiRsaPublic } from "./envConstants";
 
 //
 // To generate keys see
@@ -15,7 +15,7 @@ const logger = new Logger("cryptoverify.service.ts");
 
 @Injectable()
 class CryptoVerifyService {
-    private readonly publicKey = loginApiRsaPublic;
+    private readonly publicKey = authApiRsaPublic;
 
     public cryptoVerify(objectToSign: object, signature: string) {
         if (this.publicKey) {

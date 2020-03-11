@@ -7,42 +7,42 @@
 version: '3.7'
 
 services:
-  main:
-    container_name: main
+  mainsite:
+    container_name: mainsite
     build:
-      context: ./srvs/main
+      context: ./srvs/main-site
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ./srvs/main:/usr/src/app
+      - ./srvs/main-site:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${MAIN_PORT}:${MAIN_PORT}
       - 9229:9229
     command: npm run start:debug
     env_file:
-      - .env-main
+      - .env-main-site
     networks:
       - webnet
     depends_on:
-      - loginapi
+      - authapi
       - demoapi
       - redis
-  loginapi:
-    container_name: loginapi
+  authapi:
+    container_name: authapi
     build:
-      context: ./srvs/login-api
+      context: ./srvs/auth-api
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ./srvs/login-api:/usr/src/app
+      - ./srvs/auth-api:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - ${LOGIN_PORT}:${LOGIN_PORT}
+      - ${AUTH_PORT}:${AUTH_PORT}
       - 9230:9230
     command: npm run start:debug
     env_file:
-      - .env-login-api
+      - .env-auth-api
     networks:
       - webnet
   demoapi:
