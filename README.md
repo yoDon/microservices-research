@@ -3,14 +3,8 @@
     - [ ] Cache sessions server-side in Redis
     - [ ] Stash banned users status in Redis
 - [ ] Modular micro-services
-    - [ ] Additional nest boilerplate cleanup
-        - [ ] IUserApp, IUserInfo, IUserVisible are copy-and-pasted (should be non-nest code package)
-            - [ ] yodon-auth
-            - [ ] yodon-auth-sdk
-            - [ ] yodon-login-sdk
-            - [ ] others?
-        - [X] Rename login-api to auth-api
-        - [X] Remain main to main-site
+    - [X] Additional nest boilerplate cleanup
+        - [X] IUserApp, IUserInfo, IUserVisible are copy-and-pasted (should be non-nest code package)
     - [ ] Make Demo api & sdk module
         - [ ] Basics of demo-api NestJs project
             - [X] Basics of imported yodon-demo impl module

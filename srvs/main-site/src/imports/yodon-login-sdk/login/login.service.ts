@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import * as cryptoRandomString from "crypto-random-string";
 import * as fetch from "isomorphic-fetch";
 
-import { IUserApp, IUserInfo, IUserVisible } from "."; // eslint-disable-line no-unused-vars
+import { IUserApp, IUserInfo, IUserVisible } from "../../yodon-auth-types"; // eslint-disable-line no-unused-vars
 import {
     auth0audience,
     auth0client,

@@ -3,9 +3,6 @@ import {
     AuthController,
     AuthModule,
     AuthService,
-    IUserApp,
-    IUserInfo,
-    IUserVisible,
     UserGuard,
 } from "./auth";
 
@@ -14,8 +11,5 @@ export {
     AuthController,
     AuthModule,
     AuthService,
-    IUserApp,
-    IUserInfo,
-    IUserVisible,
     UserGuard,
 };

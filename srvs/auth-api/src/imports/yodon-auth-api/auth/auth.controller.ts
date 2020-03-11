@@ -3,7 +3,7 @@ import { ApiOperation } from "@nestjs/swagger";
 
 import {
     IUserInfo, // eslint-disable-line no-unused-vars
-} from ".";
+} from "../../yodon-auth-types";
 import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars
 
 const logger = new Logger("auth.controller.ts");

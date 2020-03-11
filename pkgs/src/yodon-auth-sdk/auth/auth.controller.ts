@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
-import { IUserInfo } from "."; // eslint-disable-line no-unused-vars
+import { IUserInfo } from "../../yodon-auth-types"; // eslint-disable-line no-unused-vars
 import { AuthService } from "./auth.service"; // eslint-disable-line no-unused-vars
 import { UserGuard } from "./user.guard";
 

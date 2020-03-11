@@ -3,7 +3,7 @@ import {
     // Logger,
 } from "@nestjs/common";
 
-import { IUserApp, IUserInfo } from "."; // eslint-disable-line no-unused-vars
+import { IUserApp, IUserInfo } from "../../yodon-auth-types"; // eslint-disable-line no-unused-vars
 
 // const logger = new Logger("auth.service.ts");
 

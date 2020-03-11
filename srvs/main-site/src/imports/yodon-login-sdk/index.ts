@@ -1,7 +1,4 @@
 import {
-    IUserApp,
-    IUserInfo,
-    IUserVisible,
     LoginController,
     LoginModule,
     LoginService,
@@ -11,7 +8,4 @@ export {
     LoginController,
     LoginModule,
     LoginService,
-    IUserApp,
-    IUserInfo,
-    IUserVisible,
 };
