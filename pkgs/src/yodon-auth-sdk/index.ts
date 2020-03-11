@@ -6,10 +6,4 @@ import {
     UserGuard,
 } from "./auth";
 
-export {
-    AdminGuard,
-    AuthController,
-    AuthModule,
-    AuthService,
-    UserGuard,
-};
+export { AdminGuard, AuthController, AuthModule, AuthService, UserGuard };

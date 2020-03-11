@@ -1,11 +1,3 @@
-import {
-    LoginController,
-    LoginModule,
-    LoginService,
-} from "./login";
+import { LoginController, LoginModule, LoginService } from "./login";
 
-export {
-    LoginController,
-    LoginModule,
-    LoginService,
-};
+export { LoginController, LoginModule, LoginService };

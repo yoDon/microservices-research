@@ -22,9 +22,3 @@ export type IUserInfo = null | {
     userVisible: IUserVisible | null;
     userVisibleSignature: string;
 };
-
-export {
-    // IUserApp,
-    // IUserInfo,
-    // IUserVisible,
-};

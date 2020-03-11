@@ -1,11 +1,3 @@
-import {
-    AuthController,
-    AuthModule,
-    AuthService,
-} from "./auth";
+import { AuthController, AuthModule, AuthService } from "./auth";
 
-export {
-    AuthController,
-    AuthModule,
-    AuthService,
-};
+export { AuthController, AuthModule, AuthService };
