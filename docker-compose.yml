@@ -10,8 +10,8 @@ services:
   main:
     container_name: main
     build:
-      context: .
-      dockerfile: Dockerfile-main
+      context: ./srvs/main
+      dockerfile: Dockerfile
       target: development
     volumes:
       - ./srvs/main:/usr/src/app
@@ -21,17 +21,18 @@ services:
       - 9229:9229
     command: npm run start:debug
     env_file:
-      - .env
+      - .env-main
     networks:
       - webnet
     depends_on:
       - loginapi
+      - demoapi
       - redis
   loginapi:
     container_name: loginapi
     build:
-      context: .
-      dockerfile: Dockerfile-loginapi
+      context: ./srvs/login-api
+      dockerfile: Dockerfile
       target: development
     volumes:
       - ./srvs/login-api:/usr/src/app
@@ -41,7 +42,24 @@ services:
       - 9230:9230
     command: npm run start:debug
     env_file:
-      - .env
+      - .env-login-api
+    networks:
+      - webnet
+  demoapi:
+    container_name: demoapi
+    build:
+      context: ./srvs/demo-api
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./srvs/demo-api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${DEMO_PORT}:${DEMO_PORT}
+      - 9231:9231
+    command: npm run start:debug
+    env_file:
+      - .env-demo-api
     networks:
       - webnet
   redis:

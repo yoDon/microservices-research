@@ -2,16 +2,49 @@
 - [ ] Use Redis cache
     - [ ] Cache sessions server-side in Redis
     - [ ] Stash banned users status in Redis
-- [ ] Make Nest-based versioning S3 file manager service
-    - [ ] Start with just accessing previously uploaded files from a readonly file system
-        - [X] RSA public/private keys should be passed in via environment variables not files
-        - [ ] Main can create short-lived JWT auth-tokens for each of the services
-            - [ ] Tokens just say the bearer of this token is the named entity for the next 60 seconds
-            - [ ] Tokens are specific to each service
-            - [ ] Tokens just convey identity not authorization
-            - [ ] Tokens have unique nonce for treating as single-use
-            - [ ] Recipient of token is responsible for assessing authorization of identified holder
-            - [ ] Recipient of token is responsible for treating as single-use
+- [ ] Modular micro-services
+    - [X] Refactor existing code into packages as while figuring out demo project
+        - [X] move login-api/src/login into pkgs/yodon-auth
+        - [X] Move main/src/auth into pkgs/yodon-auth-sdk
+        - [X] move main/src/login into pkgs/yodon-login-sdk
+        - [X] CookieSerializer needs to be an independent module
+            - [X] neither yodon-auth-sdk nor yodon-login-sdk should reference CookieSerializer
+            - [X] main should import the cookieserializer
+        - [X] login-api .env needs Auth0 client secret (accidentally deleted)
+        - [X] Move .env files up to top level, point docker-compose at them
+            - [X] gitignore .env*
+        - [X] yodon-cookie shouldn't import CryptoVerifyModule (main should)
+    - [ ] Additional nest boilerplate cleanup
+        - [ ] IUserApp, IUserInfo, IUserVisible are copy-and-pasted (should be non-nest code package)
+            - [ ] yodon-auth
+            - [ ] yodon-auth-sdk
+            - [ ] yodon-login-sdk
+            - [ ] others?
+        - [ ] Remove unused boilerplate src/app/ controller.spec, controller, service
+        - [ ] Rename yodon-auth and yodon-demo to yodon-auth-api and yodon-demo-api (since both have controllers)
+        - [ ] Rename login-api to auth-api (Dockerfile stuff)
+        - [ ] Remain main to main-site (Dockerfile stuff)
+    - [ ] Make Demo api & sdk module
+        - [ ] Basics of demo-api NestJs project
+            - [X] Basics of imported yodon-demo impl module
+            - [ ] Basics of imported yodon-demo-sdk module
+                - [ ] based on yodon-login-sdk or yodon-auth-sdk
+                - [ ] yodon-demo|yodon-demo-sdk needs own RSA pair
+                    - [ ] cryptoSign() and cryptoVerify() should take RSA key as argument so caller can name env var
+                - [ ] CryptoJWT package
+                    - [ ] create or verify JWTs
+                    - [ ] create or verify nonces
+                    - [ ] cache received nonces using node-cache
+    - [ ] Each api should have an sdk module that talks to it
+        - [ ] Main shares a public/private RSA key with each service that is used to sign auth tokens for 60 seconds
+        - [ ] Tokens just say the bearer of this token is the named entity for the next 60 seconds
+        - [ ] Tokens are specific to each service
+        - [ ] Tokens just convey identity not authorization
+        - [ ] Tokens have unique nonce for treating as single-use
+        - [ ] Recipient of token is responsible for assessing authorization of identified holder
+        - [ ] Recipient of token is responsible for treating as single-use
+    - [ ] Make Nest-based versioning S3 file manager service
+        - [ ] Start with just accessing previously uploaded files from a readonly file system
     - [ ] Docs
         - [ ] Explain how to make multiple permission keys for minimizing service accesses
     - [ ] Design api and functionality
@@ -89,26 +122,24 @@
         - [X] Bucket structure
                     appBucket000/ ----> Versioning is on, all of this is cached locally as it is used
                         _bans.json
-                        _enterpriseToHashAndBucket.json
-                        _orgToHashAndBucket.json
-                        _userToHashAndBucket.json
-                        _folderToHashAndBucket.json
+                        _enterpriseToBucket.json
                     appBucketNNN/ ----> Versioning is on, all of this is cached locally as it is used
-                        enterpriseIdHash6_o_{id}/
+                        e/{enterpriseId}/ <------- S3 recommends root folder starts with 6-8 hash-style chars
                             enterprise.json
                             buckets.json <--------- bucketIds that can be distributed among cloud services
                             orgs.json
                             users.json
                             roles.json <----------- Role IDs are scoped by owning enterprise (can be granted to members of any enterprise)
-                        orgIdHash6_o_{id}/ <------- S3 recommends root folder starts with 6-8 hash-style
+                            files.json <----------- All files an enterprise is billed for
+                        o/{orgId}/ <------- S3 recommends root folder starts with 6-8 hash-style
                             org.json
                             members.json
                             files.json <----------- All files an org has explicit permissions to
-                        accountIdHash6_u_{id}/ <--- S3 recommends root folder starts with 6-8 hash-style chars
+                        u/{userId}/ <--- S3 recommends root folder starts with 6-8 hash-style chars
                             account.json
                             files.json <----------- All files a user has explicit permissions to
                             commits.json <--------- Journal of all commits by user (accountId, date, multiple file versions or perm changes)
-                        folderIdHash6_f_{id}/
+                        f/{folderId}/
                             list.json -----> incl. perms, only leaf perms.json needs to be checked
                             folderFoo/
                                 list.json
