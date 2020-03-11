@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common"; // eslint-disable-line no-unused-vars
 
-import { DemoModule } from "../imports/yodon-demo";
+import { DemoModule } from "../imports/yodon-demo-api";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 

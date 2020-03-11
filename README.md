@@ -10,7 +10,7 @@
             - [ ] yodon-login-sdk
             - [ ] others?
         - [X] Remove unused boilerplate src/app/ controller.spec, controller, service
-        - [ ] Rename yodon-auth and yodon-demo to yodon-auth-api and yodon-demo-api (since both have controllers)
+        - [X] Rename yodon-auth and yodon-demo to yodon-auth-api and yodon-demo-api (since both have controllers)
         - [ ] Rename login-api to auth-api (Dockerfile stuff)
         - [ ] Remain main to main-site (Dockerfile stuff)
     - [ ] Make Demo api & sdk module
