@@ -5,12 +5,7 @@
 - [ ] Modular micro-services
     - [ ] Make Demo api & sdk module
         - [ ] demo-api and demo-sdk NestJs projects
-            - [X] Basics of imported yodon-demo impl module
-            - [X] Basics of imported yodon-demo-sdk module
-                - [X] don't about request signing for now, just make REST web call
-                - [X] leave the demo.controller there to have a way to exercise the sdk and api
-                - [X] modify pkgs/src/yodon-demo-sdk/demo/demo.service.ts to call demo-api endpoint
-            - [ ] Add request signing
+            - [ ] Add request signing to demo-api and demo-sdk
                 - [ ] use https://www.npmjs.com/package/http-signature to sign requests
                     - [ ] or use https://escherauth.io/escher-js.html to do AWS-style request signing
                 - [ ] include nonces on sending

@@ -15,7 +15,7 @@ class DemoService {
         };
         const fetchRes = await fetch(url, contents);
         const result = await fetchRes.text();
-        return result;
+        return result + " by way of the sdk and api";
     }
 }
 
