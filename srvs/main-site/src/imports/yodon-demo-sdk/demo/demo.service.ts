@@ -1,18 +1,21 @@
 import { Injectable } from "@nestjs/common";
+import * as fetch from "isomorphic-fetch";
 
-import { ICreateDemoDto } from "./dto/create-demo.dto"; // eslint-disable-line no-unused-vars
+import { demoApiDomain, demoApiPort } from "./envConstants";
 
 @Injectable()
 class DemoService {
-    getDemo() {
-        return "Hello World!";
-    }
-
-    async createDemo(arg: ICreateDemoDto) {
-        // for demo example purposes, return a promise
-        return new Promise((resolve) =>
-            resolve("Hello World! one:" + arg.one + " two:" + arg.two),
-        );
+    async getDemo() {
+        const url = "http://" + demoApiDomain + ":" + demoApiPort + "/api/demo";
+        const contents = {
+            method: "GET",
+            headers: {
+                "content-type": "text/html",
+            },
+        };
+        const fetchRes = await fetch(url, contents);
+        const result = await fetchRes.text();
+        return result;
     }
 }
 

@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 import { DemoService } from "./demo.service"; // eslint-disable-line no-unused-vars
-import { CreateDemoDto } from "./dto/create-demo.dto"; // eslint-disable-line no-unused-vars
 
 @Controller("demo")
 class DemoController {
@@ -13,13 +12,6 @@ class DemoController {
     @Get()
     getDemo() {
         return this.demoService.getDemo();
-    }
-
-    @ApiOperation({ summary: "Demo endpoint" })
-    @ApiResponse({ status: 200, description: "Demo DTO validation" })
-    @Post()
-    async createDemo(@Body() createDemoDto: CreateDemoDto) {
-        return this.demoService.createDemo(createDemoDto);
     }
 }
 
