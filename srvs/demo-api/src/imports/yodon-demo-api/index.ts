@@ -1,3 +1,8 @@
-import { DemoController, DemoModule, DemoService } from "./demo";
+import {
+    DemoController,
+    DemoModule,
+    DemoService,
+    SignatureGuard,
+} from "./demo";
 
-export { DemoController, DemoModule, DemoService };
+export { DemoController, DemoModule, DemoService, SignatureGuard };

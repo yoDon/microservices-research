@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-export const authApiRsaPublic = process.env.AUTHAPI_RSA_PUBLIC.replace(
+export const demoApiRsaPublic = process.env.DEMOAPI_RSA_PUBLIC.replace(
     "\\n",
     "\n",
 );
