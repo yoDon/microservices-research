@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "rimraf dist && tsc && cpx package.json dist",
-    "export": "npm-run-all export:*", 
+    "export": "npm-run-all export:*",
     "export:yodon-auth-api": "cpx --clean src/yodon-auth-api/**/* ../srvs/auth-api/src/imports/yodon-auth-api",
     "export:yodon-auth-sdk": "cpx --clean src/yodon-auth-sdk/**/* ../srvs/main-site/src/imports/yodon-auth-sdk",
     "export:yodon-auth-types": "cpx --clean src/yodon-auth-types/**/* ../srvs/main-site/src/imports/yodon-auth-types && cpx --clean src/yodon-auth-types/**/* ../srvs/auth-api/src/imports/yodon-auth-types",
