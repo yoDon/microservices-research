@@ -1,22 +1,26 @@
 import { Injectable } from "@nestjs/common";
-import * as fetch from "isomorphic-fetch";
+import axios, { AxiosRequestConfig } from "axios";
 
 import { demoApiDomain, demoApiPort } from "./envConstants";
 
 @Injectable()
 class DemoService {
     async getDemo() {
-        const url = "http://" + demoApiDomain + ":" + demoApiPort + "/api/demo";
-        const contents = {
-            method: "GET",
+        const config: AxiosRequestConfig = {
+            url: "http://" + demoApiDomain + ":" + demoApiPort + "/api/demo",
+            method: "get",
             headers: {
                 "content-type": "text/html",
             },
         };
-        const fetchRes = await fetch(url, contents);
-        const result = await fetchRes.text();
-        return result + " by way of the sdk and api";
-    }
+        return axios(config)
+        .then((res) => {
+            return res + " by way of the sdk and api";
+         })
+         .catch(() => {
+             return "error";
+         });
+     }
 }
 
 export { DemoService };

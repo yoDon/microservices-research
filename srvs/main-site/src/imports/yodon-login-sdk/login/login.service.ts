@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import * as cryptoRandomString from "crypto-random-string";
-import * as fetch from "isomorphic-fetch";
+import axios, { AxiosRequestConfig } from "axios";
 
 import { IUserApp, IUserInfo, IUserVisible } from "../../yodon-auth-types"; // eslint-disable-line no-unused-vars
 import {
@@ -74,7 +74,7 @@ class LoginService {
         return "http://localhost:3001" + state;
     }
 
-    private async fetchUserInfoUsingAccessCode(
+    private fetchUserInfoUsingAccessCode(
         accessCode: string,
     ): Promise<IUserInfo> {
         const url =
@@ -82,17 +82,28 @@ class LoginService {
             authApiDomain +
             ":" +
             authApiPort +
-            "/api/login/userInfo?accessCode=" +
+            "/api/auth/userInfo?accessCode=" +
             accessCode;
-        const contents = {
-            method: "GET",
+        const config: AxiosRequestConfig = {
+            url,
+            method: "get",
             headers: {
                 "content-type": "application/json",
             },
         };
-        const fetchRes = await fetch(url, contents);
-        const userInfo: IUserInfo = await fetchRes.json();
-        return userInfo;
+        return axios(config)
+        .then((response) => {
+            if (response.status === 200 || response.status === 304) {
+                return response.data;
+            } else {
+                logger.warn(response.status, "LoginService-fuiuac-01");
+                return null; 
+            }
+        })
+        .catch((error) => {
+            logger.error(error, "LoginService-fuiuac-02");
+            return null;
+        });
     }
 
     public isBannedUser(email: string) {

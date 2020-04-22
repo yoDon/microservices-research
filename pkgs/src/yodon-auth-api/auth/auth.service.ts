@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import * as fetch from "isomorphic-fetch";
+import axios, { AxiosRequestConfig } from "axios";
 
 import { IUserApp, IUserInfo, IUserVisible } from "../../yodon-auth-types"; // eslint-disable-line no-unused-vars
 import {
@@ -24,120 +24,124 @@ class AuthService {
         };
     }
 
-    private async fetchAccessToken(authCode: string) {
-        const url = auth0domain + "/oauth/token";
-        const contents = {
-            method: "POST",
+    private fetchAccessToken(authCode: string) {
+        const config:AxiosRequestConfig = {
+            url: auth0domain + "/oauth/token",
+            method: "post",
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify({
+            data: {
                 grant_type: "authorization_code",
                 client_id: auth0client,
                 client_secret: auth0clientSecret,
                 code: authCode,
                 redirect_uri: "http://localhost:3001/",
-            }),
+            },
         };
-        const fetchRes = await fetch(url, contents);
-        const tokens: {
-            access_token: string;
-            id_token: string;
-            scope: string;
-            expires_in: number;
-            token_type: string;
-        } = await fetchRes.json();
-        return tokens;
+        return axios(config)
+        .then((res) => {
+            if (res.status === 200 || res.status === 304) {
+                const tokens: {
+                    access_token: string;
+                    id_token: string;
+                    scope: string;
+                    expires_in: number;
+                    token_type: string;
+                } = res.data;
+                return tokens;
+            } else {
+                logger.warn(res.status, "AuthService-fat-01");
+                return null;
+            }
+        })
+        .catch((reason) => {
+            logger.warn(reason, "AuthService-fat-02");
+            return null;
+        });
     }
 
-    private async fetchUserInfoUsingTokens(tokens: {
+    private fetchUserInfoUsingTokens(tokens: {
         access_token: string;
         expires_in: number;
     }): Promise<IUserInfo> {
-        const url = auth0domain + "/userinfo";
-        const contents = {
-            method: "GET",
+        const config:AxiosRequestConfig = {
+            url: auth0domain + "/userinfo",
+            method: "get",
             headers: {
                 Authorization: "Bearer " + tokens.access_token,
                 "content-type": "application/json",
             },
         };
-        try {
-            const res = await fetch(url, contents);
-            const auth0user:
-                | {
-                      picture: string;
-                      updated_at: string;
-                      email: string;
-                      email_verified: boolean;
-                  }
-                | { [key: string]: any } = await res.json();
+        return axios(config)
+        .then((res) => {
+            if (res.status === 200 || res.status === 304) {
+                const auth0user:
+                    | {
+                        picture: string;
+                        updated_at: string;
+                        email: string;
+                        email_verified: boolean;
+                    }
+                    | { [key: string]: any } = res.data;
 
-            const userApp: IUserApp = {
-                accessToken: tokens.access_token,
-                //
-                // NOTE: JWT expires_in has units of seconds, javascript times are in milliseconds
-                //
-                expiresAt: Date.now() + tokens.expires_in * 1000,
-                pictureUrl: auth0user.picture,
-                updatedAt: auth0user.updated_at,
-                email: auth0user.email,
-                emailVerified: auth0user.email_verified,
-                roles: JSON.parse(auth0user["https://example.com/roles"]),
-            };
-            const userVisible: IUserVisible = {
-                loggedIn: true,
-                pictureUrl: auth0user.picture,
-                emailVerified: auth0user.email_verified,
-            };
-            const userAppSignature = this.cryptoSignService.cryptoSign(userApp);
-            const userVisibleSignature = this.cryptoSignService.cryptoSign(
-                userVisible,
-            );
-            const userInfo: IUserInfo = {
-                userApp,
-                userAppSignature,
-                userVisible,
-                userVisibleSignature,
-            };
-            return userInfo;
-        } catch (reason) {
-            logger.warn(reason, "AuthService-fuiut-01");
-            return this.noUser();
-        }
-    }
-
-    private async fetchUserInfoUsingAccessCode(
-        accessCode: string,
-    ): Promise<IUserInfo> {
-        try {
-            const tokens = await this.fetchAccessToken(accessCode);
-            try {
-                try {
-                    const userInfo: IUserInfo = await this.fetchUserInfoUsingTokens(
-                        tokens,
-                    );
-                    return userInfo;
-                } catch (reason) {
-                    logger.warn(reason, "AuthService-fuiuac-01");
-                    return this.noUser();
-                }
-            } catch (reason) {
-                logger.warn(reason, "AuthService-fuiuac-02");
+                const userApp: IUserApp = {
+                    accessToken: tokens.access_token,
+                    //
+                    // NOTE: JWT expires_in has units of seconds, javascript times are in milliseconds
+                    //
+                    expiresAt: Date.now() + tokens.expires_in * 1000,
+                    pictureUrl: auth0user.picture,
+                    updatedAt: auth0user.updated_at,
+                    email: auth0user.email,
+                    emailVerified: auth0user.email_verified,
+                    roles: JSON.parse(auth0user["https://example.com/roles"]),
+                };
+                const userVisible: IUserVisible = {
+                    loggedIn: true,
+                    pictureUrl: auth0user.picture,
+                    emailVerified: auth0user.email_verified,
+                };
+                const userAppSignature = this.cryptoSignService.cryptoSign(userApp);
+                const userVisibleSignature = this.cryptoSignService.cryptoSign(
+                    userVisible,
+                );
+                const userInfo: IUserInfo = {
+                    userApp,
+                    userAppSignature,
+                    userVisible,
+                    userVisibleSignature,
+                };
+                return userInfo;
+            } else {
+                logger.warn(res.status, "AuthService-fuiut-01");
                 return this.noUser();
             }
-        } catch (reason) {
-            logger.warn(reason, "auth-fuiuac-03");
+        })
+        .catch((reason) => {
+            logger.warn(reason, "AuthService-fuiut-02");
             return this.noUser();
-        }
+        });
     }
 
-    public async getUserInfo(accessCode: string): Promise<IUserInfo> {
-        try {
-            const userInfo = await this.fetchUserInfoUsingAccessCode(
-                accessCode,
-            );
+    private fetchUserInfoUsingAccessCode(
+        accessCode: string,
+    ): Promise<IUserInfo> {
+        return this.fetchAccessToken(accessCode)
+        .then((tokens) => {
+            return this.fetchUserInfoUsingTokens(tokens);
+        })
+        .catch((reason) => {
+            logger.warn(reason, "AuthService-fuiuac-01");
+            return this.noUser();
+        });
+    }
+
+    public getUserInfo(accessCode: string): Promise<IUserInfo> {
+        return this.fetchUserInfoUsingAccessCode(accessCode)
+        .then((userInfo) => {
             if (
+                userInfo === null ||
                 userInfo.userApp === null ||
                 userInfo.userVisible === null ||
                 userInfo.userAppSignature === "" ||
@@ -147,10 +151,11 @@ class AuthService {
                 return this.noUser();
             }
             return userInfo;
-        } catch (reason) {
+        })
+        .catch((reason) => {
             logger.warn(reason, "AuthService-getuserinfo-02");
             return this.noUser();
-        }
+        });
     }
 }
 
