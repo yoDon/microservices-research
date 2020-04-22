@@ -1,0 +1,12 @@
+{
+  "name": "microservices",
+  "version": "0.1.0",
+  "scripts": {
+    "docker": "npm run import-web --prefix main-site && docker-compose up",
+    "docker-freshen-npm": "npm run import-web --prefix main-site && docker-compose up --build -V",
+    "dive:auth-api": "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest srvs_authapi:latest",
+    "dive:main-site": "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest srvs_mainsite:latest"
+  },
+  "author": "Don Alvarez",
+  "license": "ISC"
+}

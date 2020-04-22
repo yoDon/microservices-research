@@ -10,11 +10,11 @@ services:
   mainsite:
     container_name: mainsite
     build:
-      context: ./srvs/main-site
+      context: ./main-site
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ./srvs/main-site:/usr/src/app
+      - ./main-site:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${MAIN_PORT}:${MAIN_PORT}
@@ -31,11 +31,11 @@ services:
   authapi:
     container_name: authapi
     build:
-      context: ./srvs/auth-api
+      context: ./auth-api
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ./srvs/auth-api:/usr/src/app
+      - ./auth-api:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${AUTH_PORT}:${AUTH_PORT}
@@ -48,11 +48,11 @@ services:
   demoapi:
     container_name: demoapi
     build:
-      context: ./srvs/demo-api
+      context: ./demo-api
       dockerfile: Dockerfile
       target: development
     volumes:
-      - ./srvs/demo-api:/usr/src/app
+      - ./demo-api:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${DEMO_PORT}:${DEMO_PORT}
